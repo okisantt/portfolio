@@ -5,14 +5,6 @@ import FadeIn from "@/components/motion/FadeIn";
 export default function HeroDesktop() {
   return (
     <div>
-      <FadeIn>
-        <div className="flex flex-wrap items-center gap-2">
-          <Tag subtle>Minimal premium • Dark-only</Tag>
-          <Tag subtle>Isaac Santana Muniz • 23</Tag>
-          <Tag subtle>Engenharia de Software</Tag>
-        </div>
-      </FadeIn>
-
       <FadeIn delay={0.05}>
         <h1 className="mt-6 text-4xl font-medium tracking-tightish text-balance font-hero">
           Interfaces precisas, limpas e feitas para converter sem ruído.

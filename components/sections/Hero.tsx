@@ -9,13 +9,6 @@ export default function Hero() {
       <Container>
         <div className="grid gap-10 md:grid-cols-[1.2fr_0.8fr] items-center">
           <div>
-            <FadeIn>
-              <div className="flex flex-wrap items-center gap-2">
-                <Tag subtle>Minimal premium • Dark-only</Tag>
-                <Tag subtle>Isaac Santana Muniz • 23</Tag>
-                <Tag subtle>Engenharia de Software</Tag>
-              </div>
-            </FadeIn>
             <FadeIn delay={0.05}>
               <h1 className="mt-5 text-3xl sm:text-4xl md:text-5xl font-medium tracking-tightish text-balance font-hero">
                 Interfaces precisas, limpas e feitas para converter sem ruído.

@@ -15,7 +15,7 @@ export default function DesktopSplit({
         style={{ width: ASIDE_WIDTH, top: "56px" }}
       >
         <div className="h-full flex items-center">
-          <div className="w-full px-10">
+          <div className="w-full pl-16 pr-10 xl:pl-20">
             <div className="mx-auto max-w-lg">
               <HeroDesktop />
             </div>
