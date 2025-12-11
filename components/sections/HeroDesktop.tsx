@@ -14,15 +14,14 @@ export default function HeroDesktop() {
       </FadeIn>
 
       <FadeIn delay={0.05}>
-        <h1 className="mt-6 text-4xl font-medium tracking-tightish text-balance font-display">
+        <h1 className="mt-6 text-4xl font-medium tracking-tightish text-balance font-hero">
           Interfaces precisas, limpas e feitas para converter sem ruído.
         </h1>
       </FadeIn>
-
       <FadeIn delay={0.1}>
         <p className="mt-4 text-sm text-muted">
-          Eu construo experiências digitais com foco em produto,
-          performance e uma estética silenciosa que transmite confiança.
+          Eu construo experiências digitais com foco em produto, performance e
+          uma estética silenciosa que transmite confiança.
         </p>
       </FadeIn>
 

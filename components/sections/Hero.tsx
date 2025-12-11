@@ -16,9 +16,8 @@ export default function Hero() {
                 <Tag subtle>Engenharia de Software</Tag>
               </div>
             </FadeIn>
-
             <FadeIn delay={0.05}>
-              <h1 className="mt-5 text-3xl sm:text-4xl md:text-5xl font-medium tracking-tightish text-balance">
+              <h1 className="mt-5 text-3xl sm:text-4xl md:text-5xl font-medium tracking-tightish text-balance font-hero">
                 Interfaces precisas, limpas e feitas para converter sem ruído.
               </h1>
             </FadeIn>

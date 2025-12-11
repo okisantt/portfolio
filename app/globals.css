@@ -58,10 +58,14 @@ body {
 }
 
 @layer utilities {
+    .font-hero {
+    font-family: var(--font-hero), ui-sans-serif, system-ui, -apple-system,
+      Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+    letter-spacing: -0.01em;
+  }
   .text-balance {
     text-wrap: balance;
   }
-
   .glass-surface {
     background: linear-gradient(
       160deg,
@@ -71,7 +75,6 @@ body {
     box-shadow: var(--tw-shadow, 0 0 #0000), 0 10px 40px rgba(0,0,0,0.45);
     border: 1px solid rgba(255,255,255,0.055);
   }
-
   .glass-surface-dark {
   background:
     linear-gradient(

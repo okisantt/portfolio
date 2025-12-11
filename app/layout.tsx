@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Space_Grotesk } from "next/font/google";
+import { Space_Grotesk, Sora } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -9,6 +9,13 @@ const display = Space_Grotesk({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-display",
+  display: "swap",
+});
+
+const heroSora = Sora({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-hero",
   display: "swap"
 });
 
@@ -21,49 +28,18 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: `${SITE_NAME} — Portfólio`,
-    template: `%s — ${SITE_NAME}`
+    template: `%s — ${SITE_NAME}`,
   },
   description: SITE_DESC,
-  applicationName: SITE_NAME,
-  authors: [{ name: SITE_NAME }],
-  creator: SITE_NAME,
-  robots: {
-    index: true,
-    follow: true
-  },
-  openGraph: {
-    type: "website",
-    url: SITE_URL,
-    title: `${SITE_NAME} — Portfólio`,
-    description: SITE_DESC,
-    siteName: SITE_NAME,
-    images: [
-      {
-        url: "/og.png",
-        width: 1200,
-        height: 630,
-        alt: `${SITE_NAME} — Portfólio`
-      }
-    ]
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `${SITE_NAME} — Portfólio`,
-    description: SITE_DESC,
-    images: ["/og.png"]
-  },
-  icons: {
-    icon: "/favicon.svg"
-  }
 };
 
 export default function RootLayout({
-  children
+  children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR" className={display.variable}>
+    <html lang="pt-BR" className={`${display.variable} ${heroSora.variable}`}>
       <body>
         <Header />
         {children}

@@ -13,7 +13,23 @@ const tabs = [
 
 export default function MobileTabBar() {
   const [active, setActive] = useState<string>("#topo");
+  const [hide, setHide] = useState(false);
 
+  // 1) Esconder a barra quando o footer entrar na tela
+  useEffect(() => {
+    const footer = document.querySelector("footer");
+    if (!footer) return;
+
+    const obs = new IntersectionObserver(
+      ([entry]) => setHide(entry.isIntersecting),
+      { threshold: 0.1 }
+    );
+
+    obs.observe(footer);
+    return () => obs.disconnect();
+  }, []);
+
+  // 2) Marcar aba ativa por seção visível
   useEffect(() => {
     const ids = tabs.map((t) => t.href.replace("#", ""));
     const observers: IntersectionObserver[] = [];
@@ -37,11 +53,17 @@ export default function MobileTabBar() {
   }, []);
 
   return (
-    <div className="md:hidden fixed bottom-3 left-0 right-0 z-50">
-      <div className="mx-auto w-[94%] max-w-md glass-surface-dark rounded-xl px-2 py-1">
+    <div
+      className={cn(
+        "md:hidden fixed bottom-3 left-0 right-0 z-50 transition duration-200",
+        hide && "opacity-0 translate-y-2 pointer-events-none"
+      )}
+    >
+      <div className="mx-auto w-[94%] max-w-md glass-surface-dark rounded-xl px-2 py-1 backdrop-blur-md">
         <nav className="grid grid-cols-5">
           {tabs.map((t) => {
             const isActive = active === t.href;
+
             return (
               <a
                 key={t.href}
