@@ -1,4 +1,4 @@
-import Container from "@/components/ui/Container";
+import Image from "next/image";
 import ButtonLink from "@/components/ui/ButtonLink";
 
 const links = [
@@ -6,57 +6,45 @@ const links = [
   { href: "#sobre", label: "Sobre" },
   { href: "#habilidades", label: "Habilidades" },
   { href: "#experiencia", label: "Experiência" },
-  { href: "#contato", label: "Contato" }
+  { href: "#contato", label: "Contato" },
 ];
 
 export default function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-white/5 bg-bg/70 backdrop-blur">
-      <Container className="flex h-14 items-center justify-between">
+      <div className="mx-auto flex h-14 items-center justify-between px-4 sm:px-8 lg:px-16 xl:px-24 w-full">
         <a
           href="#topo"
-          className="group inline-flex items-center gap-2"
+          className="group inline-flex items-center"
           aria-label="Voltar ao topo"
         >
-          <span className="h-6 w-6 rounded-md bg-white/5 border border-white/10 grid place-items-center">
-            <span className="text-[10px] text-muted group-hover:text-text transition">
-              IS
-            </span>
-          </span>
-          <span className="text-xs sm:text-sm text-muted group-hover:text-text transition">
-            Isaac Santana Muniz
-          </span>
+              <Image
+                src="/avatar-logo-isaac.png"
+                alt="Foto de Isaac Santt"
+                width={100}
+                height={100}
+                className="h-10 w-10 md:h-12 md:w-12 rounded-full object-cover"
+                priority
+              />
         </a>
 
-        <nav className="hidden md:flex items-center gap-6">
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="text-xs text-muted hover:text-text transition"
-            >
-              {l.label}
-            </a>
-          ))}
-        </nav>
+        {/* DIREITA – links + botão Currículo */}
+        <div className="flex items-center gap-6">
+          <nav className="hidden md:flex items-center gap-6">
+            {links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                className="text-xs text-muted hover:text-text transition"
+              >
+                {l.label}
+              </a>
+            ))}
+          </nav>
 
-        <div className="flex items-center gap-2">
-          <ButtonLink
-            href="/cv-isaac-santana-muniz.pdf"
-            variant="ghost"
-            className="px-3 py-1.5 text-[11px]"
-            external
-          >
-            Currículo
-          </ButtonLink>
-          <a
-            href="#contato"
-            className="hidden md:inline-flex text-xs text-muted hover:text-text transition"
-          >
-            Disponível para projetos
-          </a>
+          <ButtonLink href="#curriculo">Currículo</ButtonLink>
         </div>
-      </Container>
+      </div>
     </header>
   );
 }

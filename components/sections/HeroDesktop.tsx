@@ -5,42 +5,29 @@ import FadeIn from "@/components/motion/FadeIn";
 export default function HeroDesktop() {
   return (
     <div>
-      <FadeIn delay={0.05}>
-        <h1 className="mt-6 text-4xl font-medium tracking-tightish text-balance font-hero">
-          Interfaces precisas, limpas e feitas para converter sem ruído.
-        </h1>
-      </FadeIn>
-      <FadeIn delay={0.1}>
-        <p className="mt-4 text-sm text-muted">
-          Eu construo experiências digitais com foco em produto, performance e
-          uma estética silenciosa que transmite confiança.
-        </p>
+      <FadeIn>
+        <p className="text-xs font-mono text-accent mb-1">Hi, my name is</p>
       </FadeIn>
 
-      <FadeIn delay={0.15}>
-        <div className="mt-7 flex flex-wrap gap-3">
-          <ButtonLink href="#projetos">Ver projetos</ButtonLink>
-          <ButtonLink href="#contato" variant="ghost">
-            Falar comigo
-          </ButtonLink>
-          <ButtonLink
-            href="/cv-isaac-santana-muniz.pdf"
-            variant="ghost"
-            external
-          >
-            Currículo
-          </ButtonLink>
+      <FadeIn delay={0.05}>
+        <div className="mt-1 space-y-1">
+          <h1 className="text-4xl lg:text-[2.9rem] font-semibold leading-tight tracking-tightish text-balance font-hero">
+            Isaac Santt.
+          </h1>
+          <p className="text-xl lg:text-[1.6rem] font-medium text-text/75">
+            I build things for the web.
+          </p>
         </div>
       </FadeIn>
 
       <FadeIn delay={0.2}>
-        <div className="mt-10 rounded-xl border hairline p-6">
-          <p className="text-xs uppercase tracking-[0.24em] text-muted">
-            Perfil
+        <div className="mt-8 space-y-2 text-sm text-muted leading-relaxed">
+          <p className="text-[0.7rem] tracking-[0.35em] text-muted/70">
+            PERFIL
           </p>
-          <p className="mt-3 text-sm text-muted">
-            Estudante de Engenharia de Software com foco em front-end moderno,
-            design de interfaces e experiências mobile de padrão premium.
+          <p>
+            Estudante de Engenharia de Software com foco em back-end. Atuando em
+            banco de dados, deploy, correção de bugs e automação de sistemas.
           </p>
         </div>
       </FadeIn>

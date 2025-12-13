@@ -7,57 +7,32 @@ export default function Hero() {
   return (
     <section id="topo" className="pt-16 sm:pt-20">
       <Container>
-        <div className="grid gap-10 md:grid-cols-[1.2fr_0.8fr] items-center">
-          <div>
-            <FadeIn delay={0.05}>
-              <h1 className="mt-5 text-3xl sm:text-4xl md:text-5xl font-medium tracking-tightish text-balance font-hero">
-                Interfaces precisas, limpas e feitas para converter sem ruído.
+        <div>
+          <FadeIn>
+            <p className="text-xs font-mono text-accent mb-1">Hi, my name is</p>
+          </FadeIn>
+
+          <FadeIn delay={0.05}>
+            <div className="mt-1 space-y-1">
+              <h1 className="text-4xl lg:text-[2.9rem] font-semibold leading-tight tracking-tightish text-balance font-hero">
+                Isaac Santt.
               </h1>
-            </FadeIn>
-
-            <FadeIn delay={0.1}>
-              <p className="mt-4 max-w-xl text-sm sm:text-base text-muted">
-                Eu construo experiências digitais com foco em produto,
-                performance e uma estética silenciosa que transmite confiança.
+              <p className="text-xl lg:text-[1.6rem] font-medium text-text/75">
+                I build things for the web.
               </p>
-            </FadeIn>
+            </div>
+          </FadeIn>
 
-            <FadeIn delay={0.15}>
-              <div className="mt-7 flex flex-wrap gap-3">
-                <ButtonLink href="#projetos">Ver projetos</ButtonLink>
-                <ButtonLink href="#contato" variant="ghost">
-                  Falar comigo
-                </ButtonLink>
-                <ButtonLink
-                  href="/cv-isaac-santana-muniz.pdf"
-                  variant="ghost"
-                  external
-                >
-                  Currículo
-                </ButtonLink>
-              </div>
-            </FadeIn>
-          </div>
-
-          <FadeIn delay={0.08}>
-            <div className="glass-surface rounded-xl p-6 sm:p-7">
-              <p className="text-xs uppercase tracking-[0.24em] text-muted">
-                Foco atual
+          <FadeIn delay={0.2}>
+            <div className="mt-8 space-y-2 text-sm text-muted leading-relaxed">
+              <p className="text-[0.7rem] tracking-[0.35em] text-muted/70">
+                PERFIL
               </p>
-              <ul className="mt-4 space-y-3 text-sm text-muted">
-                <li className="flex gap-2">
-                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-accent/70" />
-                  Portfólios e landing pages de alto padrão.
-                </li>
-                <li className="flex gap-2">
-                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-accent/70" />
-                  Experiências mobile com navegação pensada para uma mão.
-                </li>
-                <li className="flex gap-2">
-                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-accent/70" />
-                  UI com tokens sólidos e consistência de produto.
-                </li>
-              </ul>
+              <p>
+                Estudante de Engenharia de Software com foco em back-end.
+                Atuando em banco de dados, deploy, correção de bugs e automação
+                de sistemas.
+              </p>
             </div>
           </FadeIn>
         </div>
