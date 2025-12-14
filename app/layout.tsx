@@ -3,7 +3,6 @@ import { Space_Grotesk, Sora } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import MobileTabBar from "@/components/layout/MobileTabBar";
 
 const display = Space_Grotesk({
   subsets: ["latin"],
@@ -44,7 +43,6 @@ export default function RootLayout({
         <Header />
         {children}
         <Footer />
-        <MobileTabBar />
       </body>
     </html>
   );
