@@ -1,12 +1,14 @@
 "use client";
 
-import { useEffect, useState, MouseEvent } from "react";
+import { useEffect, useState } from "react";
+import type { MouseEvent as ReactMouseEvent } from "react";
 import Image from "next/image";
 import ButtonLink from "@/components/ui/ButtonLink";
 import { motion, AnimatePresence } from "framer-motion";
 
-const SPLASH_DURATION_MS = 2000; // quanto tempo o overlay fica na tela
-const SPLASH_ANIM_DURATION = 1.6; // tempo da animação do logo (em segundos)
+const SPLASH_DURATION_MS = 3500; // tempo que o overlay fica na tela
+const SPLASH_ANIM_DURATION = 1.9; // duração do "pop" do símbolo
+
 const links = [
   { href: "#projetos", label: "Projetos" },
   { href: "#sobre", label: "Sobre" },
@@ -15,13 +17,90 @@ const links = [
   { href: "#contato", label: "Contato" },
 ];
 
-export default function Header() {
-  const [open, setOpen] = useState(false); // menu mobile
-  const [splash, setSplash] = useState(true); // splash de carregamento
+/** acha o pai scrollável mais próximo (funciona se o scroll for em div, não só no window) */
+function findScrollableParent(el: HTMLElement | null) {
+  if (!el || typeof window === "undefined") return null;
 
-  // animação automática ao carregar a página
+  let node: HTMLElement | null = el.parentElement;
+  while (node) {
+    const style = window.getComputedStyle(node);
+    const overflowY = style.overflowY;
+    const canScroll =
+      (overflowY === "auto" || overflowY === "scroll") &&
+      node.scrollHeight > node.clientHeight;
+
+    if (canScroll) return node;
+    node = node.parentElement;
+  }
+  return null;
+}
+
+function SplashSMark() {
+  const corners = [
+    "M18 10 H10 V26", // topo-esq
+    "M82 10 H90 V26", // topo-dir
+    "M18 90 H10 V74", // baixo-esq
+    "M82 90 H90 V74", // baixo-dir
+  ];
+
+  return (
+    <svg
+      viewBox="0 0 100 100"
+      className="h-24 w-24 sm:h-28 sm:w-28 text-accent"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {corners.map((d, i) => (
+        <motion.path
+          key={d}
+          d={d}
+          stroke="currentColor"
+          strokeWidth="4.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          initial={{ pathLength: 0, opacity: 1 }}
+          animate={{ pathLength: 1, opacity: 1 }}
+          transition={{
+            duration: 2,
+            ease: "easeInOut",
+            delay: i * 0.25,
+          }}
+        />
+      ))}
+
+      <motion.text
+        x="50"
+        y="54"
+        textAnchor="middle"
+        dominantBaseline="middle"
+        fill="currentColor"
+        style={{
+          fontSize: 60,
+          fontWeight: 600,
+          letterSpacing: 1,
+          fontFamily:
+            "ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial",
+        }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{
+          duration: 1,
+          ease: "easeInOut",
+          delay: 2.0,
+        }}
+      >
+        s
+      </motion.text>
+    </svg>
+  );
+}
+
+export default function Header() {
+  const [open, setOpen] = useState(false);
+  const [splash, setSplash] = useState(true);
+
   useEffect(() => {
-    // Só em DESKTOP (ex.: a partir de 1024px) a gente força começar no topo
+    // em desktop, força iniciar no topo do window (se estiver usando window scroll)
     if (typeof window !== "undefined" && window.innerWidth >= 1024) {
       window.scrollTo(0, 0);
     }
@@ -30,65 +109,72 @@ export default function Header() {
     return () => clearTimeout(timer);
   }, []);
 
-  // clique no logo "S": toca a animação e só depois faz scroll para o topo
-  function scrollToTopRespectingDevice() {
+  function scrollToTop() {
     if (typeof window === "undefined") return;
 
-    // DESKTOP: topo absoluto da página
-    if (window.innerWidth >= 1024) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    } else {
-      document.getElementById("topo")?.scrollIntoView({ behavior: "smooth" });
+    // tenta pelo id primeiro (funciona melhor quando o scroll é em container)
+    const topo = document.getElementById("topo");
+    if (topo) {
+      topo.scrollIntoView({ behavior: "smooth", block: "start" });
     }
+
+    // fallback pro window
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  function handleLogoClick(e: MouseEvent<HTMLButtonElement>) {
+  function handleLogoClick(e: ReactMouseEvent<HTMLButtonElement>) {
     e.preventDefault();
 
     setSplash(true);
 
     setTimeout(() => {
-      scrollToTopRespectingDevice();
-
+      scrollToTop();
       setSplash(false);
     }, SPLASH_DURATION_MS);
   }
 
-    function handleDesktopNavClick(
-    e: MouseEvent<HTMLAnchorElement>,
+  function handleDesktopNavClick(
+    e: ReactMouseEvent<HTMLAnchorElement>,
     href: string
   ) {
-    // só queremos tratar links tipo "#id" em telas de desktop
     if (typeof window === "undefined") return;
-    if (window.innerWidth < 1024) return; // garante que é PC
     if (!href.startsWith("#")) return;
 
-    const id = href.slice(1); // "#projetos" -> "projetos"
-    const el = document.getElementById(id);
+    // só intercepta no PC (do jeito que você pediu)
+    if (window.innerWidth < 1024) return;
 
-    // Se NÃO achar a seção, não chama preventDefault.
-    // Assim o <a href="#..."> continua funcionando do jeito padrão.
+    const id = href.slice(1);
+    const el = document.getElementById(id);
     if (!el) return;
 
-    // Aqui sim, a gente toma controle do scroll
     e.preventDefault();
 
-    const headerOffset = 64; // altura aproximada do header
-    const rect = el.getBoundingClientRect();
-    const offset = rect.top + window.scrollY - headerOffset;
+    const headerOffset = 64;
 
-    window.scrollTo({
-      top: offset,
-      behavior: "smooth",
-    });
-  } 
+    const scrollParent = findScrollableParent(el);
+
+    if (scrollParent) {
+      // scroll dentro do container
+      const parentRect = scrollParent.getBoundingClientRect();
+      const elRect = el.getBoundingClientRect();
+      const top = elRect.top - parentRect.top + scrollParent.scrollTop - headerOffset;
+
+      scrollParent.scrollTo({ top, behavior: "smooth" });
+      return;
+    }
+
+    // fallback: scroll no window
+    const rect = el.getBoundingClientRect();
+    const top = rect.top + window.scrollY - headerOffset;
+    window.scrollTo({ top, behavior: "smooth" });
+  }
 
   return (
     <>
-      {/* HEADER fixo no topo */}
+      {/* HEADER fixo */}
       <header className="fixed top-0 inset-x-0 z-40 bg-bg/80 backdrop-blur md:border-b md:border-white/5">
         <div className="mx-auto flex h-14 items-center justify-between px-4 sm:px-8 lg:px-16 xl:px-24 w-full">
-          {/* ESQUERDA – avatar/ícone S */}
+          {/* ESQUERDA – ícone */}
           <button
             type="button"
             onClick={handleLogoClick}
@@ -97,7 +183,7 @@ export default function Header() {
           >
             <Image
               src="/avatar-logo-isaac.png"
-              alt="Foto de Isaac Santt"
+              alt="Logo Isaac"
               width={40}
               height={40}
               className="h-9 w-9 md:h-10 md:w-10 rounded-full object-cover"
@@ -105,9 +191,8 @@ export default function Header() {
             />
           </button>
 
-          {/* DIREITA – navegação desktop + botão Currículo + hambúrguer */}
+          {/* DIREITA */}
           <div className="flex items-center gap-4 sm:gap-6">
-            {/* nav desktop */}
             <nav className="hidden md:flex items-center gap-6">
               {links.map((l) => (
                 <a
@@ -121,7 +206,6 @@ export default function Header() {
               ))}
             </nav>
 
-            {/* botão Currículo (desktop + tablets) */}
             <div className="hidden sm:block">
               <ButtonLink href="#curriculo">Currículo</ButtonLink>
             </div>
@@ -144,7 +228,7 @@ export default function Header() {
         </div>
       </header>
 
-      {/* OVERLAY MOBILE MENU (já com animação suave) */}
+      {/* MENU MOBILE */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -155,7 +239,6 @@ export default function Header() {
             className="fixed inset-0 z-50 bg-bg/95 backdrop-blur md:hidden"
           >
             <div className="flex h-full flex-col">
-              {/* topo do overlay: avatar + X */}
               <div className="flex items-center justify-between px-4 pt-4">
                 <button
                   type="button"
@@ -165,7 +248,7 @@ export default function Header() {
                 >
                   <Image
                     src="/avatar-logo-isaac.png"
-                    alt="Foto de Isaac Santt"
+                    alt="Logo Isaac"
                     width={32}
                     height={32}
                     className="h-8 w-8 rounded-full object-cover"
@@ -186,7 +269,6 @@ export default function Header() {
                 </button>
               </div>
 
-              {/* links centralizados estilo Brittany */}
               <div className="flex flex-1 flex-col items-center justify-center gap-6 text-center">
                 {links.map((l, index) => (
                   <motion.a
@@ -196,10 +278,7 @@ export default function Header() {
                     className="text-base text-muted hover:text-text transition"
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: 0.3,
-                      delay: 0.15 + index * 0.05,
-                    }}
+                    transition={{ duration: 0.3, delay: 0.15 + index * 0.05 }}
                   >
                     <span className="block text-xs text-accent mb-1">
                       {`0${index + 1}.`}
@@ -208,18 +287,14 @@ export default function Header() {
                   </motion.a>
                 ))}
 
-                {/* Resume → PDF do currículo/portfólio */}
                 <motion.a
-                  href="/cv-isaac-santana-muniz.pdf" // ajusta o nome do arquivo se for outro
+                  href="/cv-isaac-santana-muniz.pdf"
                   target="_blank"
                   rel="noreferrer"
                   className="mt-6 inline-flex items-center rounded-full border border-accent px-10 py-2 text-xs font-medium text-accent"
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.3,
-                    delay: 0.2 + links.length * 0.05,
-                  }}
+                  transition={{ duration: 0.3, delay: 0.2 + links.length * 0.05 }}
                 >
                   Resume
                 </motion.a>
@@ -229,8 +304,7 @@ export default function Header() {
         )}
       </AnimatePresence>
 
-      {/* SPLASH SCREEN – animação de carregamento/retorno ao topo */}
-      {/* SPLASH SCREEN – animação de carregamento/retorno ao topo */}
+      {/* SPLASH */}
       <AnimatePresence>
         {splash && (
           <motion.div
@@ -240,29 +314,15 @@ export default function Header() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
           >
-            {/* Logo “S” com cantos, animando no centro da tela */}
+            {/* 1 wrapper + 1 símbolo (SEM duplicar) */}
             <motion.div
               className="flex items-center justify-center"
               initial={{ scale: 0.7, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 1.1, opacity: 0 }}
-              transition={{
-                duration: SPLASH_ANIM_DURATION,
-                ease: "easeInOut",
-              }}
+              transition={{ duration: SPLASH_ANIM_DURATION, ease: "easeInOut" }}
             >
-              <div className="relative h-24 w-24 sm:h-28 sm:w-28">
-                {/* quatro cantos do ícone */}
-                <span className="absolute left-0 top-0 h-6 w-6 border-l-2 border-t-2 border-accent rounded-tl-md" />
-                <span className="absolute right-0 top-0 h-6 w-6 border-r-2 border-t-2 border-accent rounded-tr-md" />
-                <span className="absolute left-0 bottom-0 h-6 w-6 border-l-2 border-b-2 border-accent rounded-bl-md" />
-                <span className="absolute right-0 bottom-0 h-6 w-6 border-r-2 border-b-2 border-accent rounded-br-md" />
-
-                {/* letra S central */}
-                <span className="absolute inset-0 flex items-center justify-center text-3xl sm:text-4xl font-semibold text-accent">
-                  s
-                </span>
-              </div>
+              <SplashSMark />
             </motion.div>
           </motion.div>
         )}

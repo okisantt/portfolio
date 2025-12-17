@@ -15,12 +15,11 @@ const heroSora = Sora({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-hero",
-  display: "swap"
+  display: "swap",
 });
 
 const SITE_NAME = "Isaac Santana Muniz";
-const SITE_DESC =
-  "Portfólio minimal premium com foco em produto, front-end e experiências digitais.";
+const SITE_DESC = "Portfólio.";
 const SITE_URL = "https://seu-dominio.com"; // troque
 
 export const metadata: Metadata = {
@@ -38,11 +37,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR" className={`${display.variable} ${heroSora.variable}`}>
+    <html
+      lang="pt-BR"
+      className={`is-splashing ${display.variable} ${heroSora.variable}`}
+    >
       <body>
         <Header />
-        {children}
-        <Footer />
+
+        <main className="page-shell">
+          {children}
+          <Footer />
+        </main>
       </body>
     </html>
   );
