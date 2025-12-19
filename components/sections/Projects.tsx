@@ -1,5 +1,6 @@
 "use client";
 
+import FeaturedProject from "./FeaturedProject";
 import { useMemo, useState } from "react";
 import Section from "@/components/ui/Section";
 import Tag from "@/components/ui/Tag";
@@ -17,7 +18,9 @@ function ProjectCard({ p }: { p: Project }) {
   return (
     <Pressable>
       <CardTag
-        {...(p.href ? { href: p.href, target: "_blank", rel: "noreferrer" } : {})}
+        {...(p.href
+          ? { href: p.href, target: "_blank", rel: "noreferrer" }
+          : {})}
         className={cn(base, p.highlight && "border-white/12 bg-white/2")}
       >
         <div className="flex items-center justify-between gap-3">
@@ -48,7 +51,8 @@ function ProjectCard({ p }: { p: Project }) {
 }
 
 export default function Projects() {
-  const [category, setCategory] = useState<(typeof CATEGORIES)[number]>("Todos");
+  const [category, setCategory] =
+    useState<(typeof CATEGORIES)[number]>("Todos");
 
   const filtered = useMemo(() => {
     if (category === "Todos") return PROJECTS;
@@ -62,6 +66,8 @@ export default function Projects() {
       title="Projetos com foco em clareza, eficiência e estética silenciosa"
       subtitle="Filtros simples, cards honestos e microinterações contidas. No toque, a resposta visual é imediata; no desktop, o hover é leve."
     >
+      <FeaturedProject />
+
       <div className="mb-6 flex flex-wrap gap-2">
         {CATEGORIES.map((c) => {
           const active = c === category;
