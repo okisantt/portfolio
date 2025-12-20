@@ -10,62 +10,60 @@ export default function FeaturedProject() {
   return (
     <div className="mx-auto max-w-[1000px] px-4 sm:px-8 lg:px-0 py-10">
       {/* =========================
-          DESKTOP (AGORA COM O MESMO FRAME DO MOBILE)
+          DESKTOP
           - Hover do PC continua funcionando (cor real + animação e volta)
           ========================= */}
       <div className="hidden md:grid grid-cols-12 grid-rows-6 gap-3 items-center">
         {/* IMAGEM DESKTOP */}
-        <div
-          className="
-            relative col-span-12 row-start-1 row-end-7
-            md:col-start-6 md:col-end-13
-            min-h-[260px] md:min-h-[360px]
-          "
-        >
-          {/* frame atrás (igual mobile/Brittany) */}
-          <div className="absolute inset-0 translate-x-3 translate-y-3 rounded-sm border border-accent/60 pointer-events-none" />
+        <div className="relative col-span-12 row-start-1 row-end-7 md:col-start-10 md:col-end-11 justify-self-end md:mr-[-26px]">
+          <div className="group relative w-[280px] lg:w-[320px] aspect-square">
+            {/* moldura atrás (borda deslocada) */}
+            <div className="absolute inset-0 translate-x-3 translate-y-3 rounded-sm border border-accent/60 pointer-events-none" />
 
-          {/* bloco da imagem em cima */}
-          <div
-            className="
-              group absolute inset-0 overflow-hidden rounded-sm
-              bg-[#0a192f]
-              transform-gpu transition-transform duration-700 ease-out
-            "
-          >
-            {/* base gradiente */}
-            <div className="absolute inset-0 bg-gradient-to-br from-[#64ffda] to-[#64ff8d]" />
-
-            <Image
-              src="/projects/santtdev.jpeg"
-              alt="Imagem do projeto em destaque"
-              fill
-              priority
-              className="
-                object-cover transform-gpu
-                transition duration-700 ease-out
-                mix-blend-multiply grayscale contrast-125
-                group-hover:scale-[1.06]
-                group-hover:grayscale-0
-                group-hover:contrast-100
-                group-hover:mix-blend-normal
-              "
-              sizes="(min-width: 1024px) 640px, (min-width: 768px) 520px, 100vw"
-            />
-
-            {/* overlay “screen” (some no hover do PC) */}
+            {/* caixa da imagem */}
             <div
               className="
-                absolute inset-0
-                bg-[#0a192f] mix-blend-screen opacity-70
-                transition-opacity duration-700 ease-out
-                group-hover:opacity-0
+                relative h-full w-full overflow-hidden rounded-sm
+                bg-gradient-to-br from-[#64ffda] to-[#64ff8d]
+                transform-gpu transition-transform duration-700 ease-out
               "
-            />
+            >
+              {/* base gradiente */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#64ffda] to-[#64ff8d]" />
+
+              {/* imagem (mantém hover: cor real + zoom) */}
+              <Image
+                src="/projects/isaacdevv.jpeg"
+                alt="Foto do Isaac"
+                fill
+                priority
+                className="
+                  object-cover transform-gpu
+                  transition duration-700 ease-out
+                  mix-blend-multiply grayscale contrast-125
+                  group-hover:scale-[1.06]
+                  group-hover:grayscale-0
+                  group-hover:contrast-100
+                  group-hover:mix-blend-normal
+                "
+                sizes="(min-width: 1024px) 320px, 82vw"
+              />
+
+              {/* overlay “screen” (some no hover) */}
+              <div
+                className="
+                  absolute inset-0
+                  bg-[#0a192f] mix-blend-screen
+                  opacity-70
+                  transition-opacity duration-700 ease-out
+                  group-hover:opacity-0
+                "
+              />
+            </div>
           </div>
         </div>
 
-        {/* CONTEÚDO DESKTOP (não mexi) */}
+        {/* CONTEÚDO DESKTOP */}
         <div
           className="
             relative z-20 col-span-12 row-start-1 row-end-7
@@ -73,56 +71,114 @@ export default function FeaturedProject() {
             p-6 sm:p-8 md:p-0
           "
         >
-          <div className="text-accent font-mono text-sm">01. Sobre Mim</div>
+          <div className="flex items-center gap-3 mb-5 md:mb-6">
+            <span className="whitespace-nowrap font-mono text-base md:text-lg text-accent">
+              01.
+            </span>
 
-          <h4 className="mt-2 mb-6 text-3xl md:text-4xl font-semibold text-text">
-            Fullstack
-          </h4>
+            <span className="whitespace-nowrap text-lg md:text-xl font-semibold tracking-tight text-text/90">
+              Sobre Mim
+            </span>
 
+            <span className="h-px flex-1 bg-white/10" />
+          </div>
+
+          {/* ✅ AQUI: removido o card de fundo + parágrafos + lista estilo Brittany */}
           <div className="text-[15px] leading-relaxed text-muted">
-            <p className="rounded-sm bg-[#252525] px-6 py-5">
-              Me chamo Isaac Santana Muniz, tenho 23 anos e atuo com foco em
-              back-end, criando APIs e serviços com atenção a dados, segurança e
-              manutenção. Trabalho com regras de negócio, integrações e
-              automações, buscando sempre consistência, boa organização de
-              código e entregas confiáveis.
+            <div className="space-y-4">
+              <p>
+                Me chamo Isaac Santana Muniz, tenho 23 anos e atuo com foco em
+                back-end, desenvolvendo APIs e serviços com atenção a modelagem
+                de dados, segurança e manutenção.
+              </p>
+
+              <p>
+                Trabalho com regras de negócio, integrações e automações,
+                buscando sempre consistência, boa organização de código e
+                entregas confiáveis.
+              </p>
+
+              <p>
+                Tenho interesse forte em Cybersecurity e pretendo migrar para
+                essa área no futuro, aprofundando práticas de hardening, análise
+                de vulnerabilidades e engenharia segura.
+              </p>
+            </div>
+
+            <p className="mt-8 text-sm text-muted/80">
+              Tecnologias que venho usando recentemente:
             </p>
 
-            <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-2 font-mono text-sm text-muted">
-              <li>APIs (REST)</li>
-              <li>Banco de Dados</li>
-              <li>Design System</li>
+            <ul className="mt-3 grid grid-cols-2 gap-x-10 gap-y-2 font-mono text-xs text-muted">
+              <li className="flex items-center gap-2">
+                <span className="text-accent">▹</span> APIs (REST)
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-accent">▹</span> Banco de Dados
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-accent">▹</span> Design System
+              </li>
             </ul>
           </div>
         </div>
       </div>
 
       {/* =========================
-          MOBILE (IGUAL AO QUE ESTÁ)
-          + AGORA: clique liga/desliga cor real com animação
+          MOBILE
+          + clique liga/desliga cor real com animação
           ========================= */}
       <div className="md:hidden">
         {/* TEXTO */}
         <div className="px-1">
-          <div className="text-accent font-mono text-sm">01. Sobre Mim</div>
+          <div className="flex items-center gap-3 mb-5 md:mb-6">
+            <span className="whitespace-nowrap font-mono text-base md:text-lg text-accent">
+              01.
+            </span>
 
-          <h4 className="mt-2 mb-4 text-3xl font-semibold text-text">
-            Fullstack
-          </h4>
+            <span className="whitespace-nowrap text-lg md:text-xl font-semibold tracking-tight text-text/90">
+              Sobre Mim
+            </span>
 
+            <span className="h-px flex-1 bg-white/10" />
+          </div>
+
+          {/* ✅ AQUI: removido o card de fundo + parágrafos + lista estilo Brittany */}
           <div className="text-[15px] leading-relaxed text-muted">
-            <p className="rounded-sm bg-[#252525] px-6 py-5">
-              Me chamo Isaac Santana Muniz, tenho 23 anos e atuo com foco em
-              back-end, criando APIs e serviços com atenção a dados, segurança e
-              manutenção. Trabalho com regras de negócio, integrações e
-              automações, buscando sempre consistência, boa organização de
-              código e entregas confiáveis.
+            <div className="space-y-4">
+              <p>
+                Me chamo Isaac Santana Muniz, tenho 23 anos e atuo com foco em
+                back-end, desenvolvendo APIs e serviços com atenção a modelagem
+                de dados, segurança e manutenção.
+              </p>
+
+              <p>
+                Trabalho com regras de negócio, integrações e automações,
+                buscando sempre consistência, boa organização de código e
+                entregas confiáveis.
+              </p>
+
+              <p>
+                Tenho interesse forte em Cybersecurity e pretendo migrar para
+                essa área no futuro, aprofundando práticas de hardening, análise
+                de vulnerabilidades e engenharia segura.
+              </p>
+            </div>
+
+            <p className="mt-8 text-sm text-muted/80">
+              Tecnologias que venho usando recentemente:
             </p>
 
-            <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-2 font-mono text-sm text-muted">
-              <li>APIs (REST)</li>
-              <li>Banco de Dados</li>
-              <li>Design System</li>
+            <ul className="mt-3 grid grid-cols-2 gap-x-10 gap-y-2 font-mono text-xs text-muted">
+              <li className="flex items-center gap-2">
+                <span className="text-accent">▹</span> APIs (REST)
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-accent">▹</span> Banco de Dados
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-accent">▹</span> Design System
+              </li>
             </ul>
           </div>
         </div>
@@ -144,7 +200,7 @@ export default function FeaturedProject() {
               <div className="absolute inset-0 bg-gradient-to-br from-[#64ffda] to-[#64ff8d]" />
 
               <Image
-                src="/projects/santtdev.jpeg"
+                src="/projects/isaacdevv.jpeg"
                 alt="Foto do Isaac"
                 fill
                 sizes="280px"
