@@ -1,0 +1,16 @@
+# deps
+node_modules/
+.pnpm-store/
+
+# build / cache
+.next/
+out/
+dist/
+build/
+.vercel/
+
+# env / logs / editor
+.env*
+*.log
+.vscode/
+.DS_Store
