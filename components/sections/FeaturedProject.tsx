@@ -33,7 +33,7 @@ export default function FeaturedProject() {
 
               {/* imagem (mantém hover: cor real + zoom) */}
               <Image
-                src="/projects/isaacdevv.jpeg"
+                src="/projects/editsantt.png"
                 alt="Foto do Isaac"
                 fill
                 priority
@@ -200,7 +200,7 @@ export default function FeaturedProject() {
               <div className="absolute inset-0 bg-gradient-to-br from-[#64ffda] to-[#64ff8d]" />
 
               <Image
-                src="/projects/isaacdevv.jpeg"
+                src="/projects/editsantt.png"
                 alt="Foto do Isaac"
                 fill
                 sizes="280px"
