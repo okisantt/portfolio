@@ -68,7 +68,7 @@ export default function FeaturedProject() {
           className="
             relative z-20 col-span-12 row-start-1 row-end-7
             md:col-start-1 md:col-end-7
-            p-6 sm:p-8 md:p-0
+            p-6 sm:p-8 md:p-0 md:pl-8
           "
         >
           <div className="flex items-center gap-3 mb-5 md:mb-6">
@@ -111,13 +111,22 @@ export default function FeaturedProject() {
 
             <ul className="mt-3 grid grid-cols-2 gap-x-10 gap-y-2 font-mono text-xs text-muted">
               <li className="flex items-center gap-2">
-                <span className="text-accent">▹</span> APIs (REST)
+                <span className="text-accent">▹</span> JavaScript
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-accent">▹</span> Banco de Dados
+                <span className="text-accent">▹</span> React
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-accent">▹</span> Design System
+                <span className="text-accent">▹</span> Node.js
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-accent">▹</span> C++
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-accent">▹</span> VBA
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-accent">▹</span> Python
               </li>
             </ul>
           </div>
@@ -171,13 +180,22 @@ export default function FeaturedProject() {
 
             <ul className="mt-3 grid grid-cols-2 gap-x-10 gap-y-2 font-mono text-xs text-muted">
               <li className="flex items-center gap-2">
-                <span className="text-accent">▹</span> APIs (REST)
+                <span className="text-accent">▹</span> JavaScript
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-accent">▹</span> Banco de Dados
+                <span className="text-accent">▹</span> React
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-accent">▹</span> Design System
+                <span className="text-accent">▹</span> Node.js
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-accent">▹</span> C++
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-accent">▹</span> VBA
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-accent">▹</span> Python
               </li>
             </ul>
           </div>

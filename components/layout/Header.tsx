@@ -10,11 +10,9 @@ const SPLASH_DURATION_MS = 3500; // tempo que o overlay fica na tela
 const SPLASH_ANIM_DURATION = 1.9; // duração do "pop" do símbolo
 
 const links = [
-  { href: "#projetos", label: "Projetos" },
-  { href: "#sobre", label: "Sobre" },
-  { href: "#habilidades", label: "Habilidades" },
-  { href: "#experiencia", label: "Experiência" },
-  { href: "#contato", label: "Contato" },
+  { href: "#sobre", label: "Sobre", n: "01." },
+  { href: "#experiencia", label: "Experiência", n: "02." },
+  { href: "#projetos", label: "Projetos", n: "03." },
 ];
 
 /** acha o pai scrollável mais próximo (funciona se o scroll for em div, não só no window) */
@@ -157,7 +155,8 @@ export default function Header() {
       // scroll dentro do container
       const parentRect = scrollParent.getBoundingClientRect();
       const elRect = el.getBoundingClientRect();
-      const top = elRect.top - parentRect.top + scrollParent.scrollTop - headerOffset;
+      const top =
+        elRect.top - parentRect.top + scrollParent.scrollTop - headerOffset;
 
       scrollParent.scrollTo({ top, behavior: "smooth" });
       return;
@@ -193,24 +192,28 @@ export default function Header() {
 
           {/* DIREITA */}
           <div className="flex items-center gap-4 sm:gap-6">
-            <nav className="hidden md:flex items-center gap-6">
+            <nav className="hidden md:flex items-center gap-8">
               {links.map((l) => (
                 <a
                   key={l.href}
                   href={l.href}
                   onClick={(e) => handleDesktopNavClick(e, l.href)}
-                  className="text-xs text-muted hover:text-text transition"
+                  className="group inline-flex items-center gap-2 text-xs font-mono text-muted hover:text-text transition"
                 >
-                  {l.label}
+                  <span className="text-accent">{l.n}</span>
+                  <span>{l.label}</span>
                 </a>
               ))}
             </nav>
 
             <div className="hidden sm:block">
-              <ButtonLink href="#curriculo">Currículo</ButtonLink>
+              <a
+                href="#curriculo"
+                className="inline-flex items-center rounded-full border border-accent px-8 py-2 text-xs font-medium text-accent"
+              >
+                Resumo
+              </a>
             </div>
-
-            {/* hambúrguer – só mobile */}
             <button
               type="button"
               className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-muted md:hidden"
@@ -294,9 +297,12 @@ export default function Header() {
                   className="mt-6 inline-flex items-center rounded-full border border-accent px-10 py-2 text-xs font-medium text-accent"
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: 0.2 + links.length * 0.05 }}
+                  transition={{
+                    duration: 0.3,
+                    delay: 0.2 + links.length * 0.05,
+                  }}
                 >
-                  Resume
+                  Resumo
                 </motion.a>
               </div>
             </div>
