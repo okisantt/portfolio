@@ -3,6 +3,7 @@
 import Container from "@/components/ui/Container";
 import FadeIn from "@/components/motion/FadeIn";
 import { motion } from "framer-motion";
+import { Github, Linkedin, Mail } from "lucide-react";
 
 export default function Hero() {
   return (
@@ -33,6 +34,7 @@ export default function Hero() {
               </p>
             </div>
           </FadeIn>
+
           <FadeIn delay={0.18}>
             <div className="mt-8 space-y-3 text-[0.95rem] md:text-sm text-muted leading-relaxed">
               <p className="text-[0.8rem] tracking-[0.35em] text-muted/70">
@@ -43,6 +45,54 @@ export default function Hero() {
                 Atuando em banco de dados, deploy, correção de bugs e automação
                 de sistemas.
               </p>
+
+              {/* ÍCONES — SOMENTE MOBILE (centralizados, sem texto) */}
+              <div className="pt-8 w-full md:hidden">
+                <div className="flex items-center gap-4">
+                  <a
+                    href="https://github.com/isaacsantt"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Abrir GitHub"
+                    className="
+                      group inline-flex h-11 w-11 items-center justify-center rounded-full
+                      border border-white/10 text-muted transition
+                      hover:text-text hover:border-white/20 hover:bg-white/5
+                      active:scale-95
+                    "
+                  >
+                    <Github className="h-5 w-5" />
+                  </a>
+
+                  <a
+                    href="https://www.linkedin.com/in/SEU-USUARIO/"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Abrir LinkedIn"
+                    className="
+                      group inline-flex h-11 w-11 items-center justify-center rounded-full
+                      border border-white/10 text-muted transition
+                      hover:text-text hover:border-white/20 hover:bg-white/5
+                      active:scale-95
+                    "
+                  >
+                    <Linkedin className="h-5 w-5" />
+                  </a>
+
+                  <a
+                    href="mailto:SEUEMAIL@DOMINIO.COM"
+                    aria-label="Enviar e-mail"
+                    className="
+                      group inline-flex h-11 w-11 items-center justify-center rounded-full
+                      border border-white/10 text-muted transition
+                      hover:text-text hover:border-white/20 hover:bg-white/5
+                      active:scale-95
+                    "
+                  >
+                    <Mail className="h-5 w-5" />
+                  </a>
+                </div>
+              </div>
             </div>
           </FadeIn>
         </motion.div>
