@@ -15,10 +15,10 @@ type Experience = {
 
 const EXPERIENCES: Experience[] = [
   {
-    company: "Upstatement",
-    href: "https://upstatement.com",
-    role: "Lead Engineer",
-    period: "Mai 2018 — Presente",
+    company: "G4S Vanguarda",
+    href: "https://www.g4s.com/pt-br",
+    role: "Vigilante Patrimonial",
+    period: "Jan 2024 — Presente",
     bullets: [
       "Entregar código de produção robusto e bem estruturado para produtos e clientes.",
       "Atuar junto ao time para definir arquitetura, padrões e decisões técnicas.",
@@ -27,18 +27,20 @@ const EXPERIENCES: Experience[] = [
     ],
   },
   {
-    company: "Apple",
+    company: "AATEC",
+    href: "https://www.aatec.com.br/",
     role: "Engineer",
-    period: "Jan 2017 — Abr 2018",
+    period: "Set 2024 — Dez 2024",
     bullets: [
       "Construção e evolução de componentes e fluxos internos.",
       "Correções e melhorias com foco em estabilidade e qualidade.",
     ],
   },
   {
-    company: "Scout Studio",
+    company: "Madil Carreiras",
+    href: "https://www.linkedin.com/company/lumiicarreiras/",
     role: "Dev",
-    period: "2026 — 2027",
+    period: "Mai 2024 — Nov 2024",
     bullets: ["(Edite aqui depois com suas experiências reais)."],
   },
 ];
@@ -96,7 +98,7 @@ export default function Timeline() {
   return (
     <section id="experiencia" className="py-section-y">
       <Container>
-        {/* Header estilo Brittany (02. Experiências + linha) */}
+
         <div className="flex items-center gap-3 mb-10 sm:mb-14">
           <span className="whitespace-nowrap font-mono text-base md:text-lg text-accent">
             02.
@@ -110,7 +112,7 @@ export default function Timeline() {
         </div>
 
         <div className="grid gap-8 md:grid-cols-[220px_1fr]">
-          {/* MOBILE: tabs horizontais */}
+
           <div className="md:hidden -mx-4 px-4 overflow-x-auto">
             <div className="flex min-w-max border-b border-white/10">
               {EXPERIENCES.map((e, i) => {
@@ -141,7 +143,6 @@ export default function Timeline() {
             </div>
           </div>
 
-          {/* DESKTOP: tabs verticais à esquerda */}
           <div className="hidden md:block">
             <div className="relative pl-3">
               <div className="absolute left-0 top-0 bottom-0 w-px bg-white/10" />
@@ -180,15 +181,12 @@ export default function Timeline() {
             </div>
           </div>
 
-          {/* Conteúdo (altura estável: topo NÃO se mexe ao trocar abas) */}
           <FadeIn>
             <div className="relative overflow-hidden">
-              {/* sizer invisível (define a altura máxima e impede layout shift) */}
               <div aria-hidden="true" className="invisible pointer-events-none">
                 <ExperienceContent exp={tallest} />
               </div>
 
-              {/* painel visível (troca sem empurrar nada acima) */}
               <div className="absolute inset-0">
                 <ExperienceContent exp={exp} />
               </div>
