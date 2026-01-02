@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 import Container from "@/components/ui/Container";
 import FadeIn from "@/components/motion/FadeIn";
@@ -43,9 +43,55 @@ const EXPERIENCES: Experience[] = [
   },
 ];
 
+function ExperienceContent({ exp }: { exp: Experience }) {
+  return (
+    <div>
+      <h3 className="text-base sm:text-lg font-medium text-text">
+        {exp.role}{" "}
+        <span className="text-text/70">
+          @{" "}
+          {exp.href ? (
+            <a
+              href={exp.href}
+              target="_blank"
+              rel="noreferrer"
+              className="text-accent hover:underline"
+            >
+              {exp.company}
+            </a>
+          ) : (
+            <span className="text-accent">{exp.company}</span>
+          )}
+        </span>
+      </h3>
+
+      <p className="mt-2 text-xs sm:text-sm font-mono text-muted">{exp.period}</p>
+
+      <ul className="mt-5 space-y-3 text-sm text-muted leading-relaxed">
+        {exp.bullets.map((b) => (
+          <li key={b} className="relative pl-6">
+            <span className="absolute left-0 top-[2px] text-accent">▸</span>
+            {b}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export default function Timeline() {
   const [active, setActive] = useState(0);
   const exp = EXPERIENCES[active];
+
+  const tallest = useMemo(() => {
+    const score = (e: Experience) =>
+      e.company.length +
+      e.role.length +
+      e.period.length +
+      e.bullets.reduce((s, b) => s + b.length, 0);
+
+    return EXPERIENCES.reduce((best, cur) => (score(cur) > score(best) ? cur : best), EXPERIENCES[0]);
+  }, []);
 
   return (
     <section id="experiencia" className="py-section-y">
@@ -73,7 +119,10 @@ export default function Timeline() {
                   <button
                     key={e.company}
                     type="button"
-                    onClick={() => setActive(i)}
+                    onClick={(ev) => {
+                      (ev.currentTarget as HTMLButtonElement).focus({ preventScroll: true });
+                      setActive(i);
+                    }}
                     className={cn(
                       "relative px-4 py-3 text-sm font-mono transition",
                       isActive ? "text-accent" : "text-muted hover:text-text"
@@ -104,7 +153,10 @@ export default function Timeline() {
                     <button
                       key={e.company}
                       type="button"
-                      onClick={() => setActive(i)}
+                      onClick={(ev) => {
+                        (ev.currentTarget as HTMLButtonElement).focus({ preventScroll: true });
+                        setActive(i);
+                      }}
                       className={cn(
                         "group relative w-full text-left pl-4 pr-3 py-3 text-sm font-mono transition",
                         isActive
@@ -115,7 +167,9 @@ export default function Timeline() {
                       <span
                         className={cn(
                           "absolute left-0 top-0 h-full w-[2px] transition",
-                          isActive ? "bg-accent" : "bg-transparent group-hover:bg-white/20"
+                          isActive
+                            ? "bg-accent"
+                            : "bg-transparent group-hover:bg-white/20"
                         )}
                       />
                       {e.company}
@@ -126,42 +180,18 @@ export default function Timeline() {
             </div>
           </div>
 
-          {/* Conteúdo */}
+          {/* Conteúdo (altura estável: topo NÃO se mexe ao trocar abas) */}
           <FadeIn>
-            <div>
-              <h3 className="text-base sm:text-lg font-medium text-text">
-                {exp.role}{" "}
-                <span className="text-text/70">
-                  @{" "}
-                  {exp.href ? (
-                    <a
-                      href={exp.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-accent hover:underline"
-                    >
-                      {exp.company}
-                    </a>
-                  ) : (
-                    <span className="text-accent">{exp.company}</span>
-                  )}
-                </span>
-              </h3>
+            <div className="relative overflow-hidden">
+              {/* sizer invisível (define a altura máxima e impede layout shift) */}
+              <div aria-hidden="true" className="invisible pointer-events-none">
+                <ExperienceContent exp={tallest} />
+              </div>
 
-              <p className="mt-2 text-xs sm:text-sm font-mono text-muted">
-                {exp.period}
-              </p>
-
-              <ul className="mt-5 space-y-3 text-sm text-muted leading-relaxed">
-                {exp.bullets.map((b) => (
-                  <li key={b} className="relative pl-6">
-                    <span className="absolute left-0 top-[2px] text-accent">
-                      ▸
-                    </span>
-                    {b}
-                  </li>
-                ))}
-              </ul>
+              {/* painel visível (troca sem empurrar nada acima) */}
+              <div className="absolute inset-0">
+                <ExperienceContent exp={exp} />
+              </div>
             </div>
           </FadeIn>
         </div>
