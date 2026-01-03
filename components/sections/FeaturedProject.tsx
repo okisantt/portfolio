@@ -2,54 +2,54 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { Github, ExternalLink } from "lucide-react";
 
 export default function FeaturedProject() {
-  // ✅ Hook NO lugar certo: dentro do componente
   const [revealMobile, setRevealMobile] = useState(false);
 
   return (
-    <div className="mx-auto max-w-[1000px] px-4 sm:px-8 lg:px-0 py-10">
-      {/* =========================
-          DESKTOP
-          - Hover do PC continua funcionando (cor real + animação e volta)
-          ========================= */}
-      <div className="hidden md:grid grid-cols-12 grid-rows-6 gap-3 items-center">
-        {/* IMAGEM DESKTOP */}
-        <div className="relative col-span-12 row-start-1 row-end-7 md:col-start-10 md:col-end-11 justify-self-end md:mr-[-26px]">
-          <div className="group relative w-[280px] lg:w-[320px] aspect-square">
-            {/* moldura atrás (borda deslocada) */}
+    <div className="mx-auto max-w-[1000px]">
+      <div className="flex items-center gap-3 mb-10 sm:mb-14">
+        <span className="whitespace-nowrap font-mono text-base md:text-lg text-accent">
+          03.
+        </span>
+
+        <span className="whitespace-nowrap text-lg md:text-xl font-semibold tracking-tight text-text/90">
+          Projeto em Destaque
+        </span>
+
+        <span className="h-px flex-1 bg-white/10" />
+      </div>
+      <div className="hidden md:grid grid-cols-12 items-center gap-6">
+        <div className="relative col-span-7">
+          <div className="group relative w-full max-w-[640px] aspect-[16/10]">
             <div className="absolute inset-0 translate-x-3 translate-y-3 rounded-sm border border-accent/60 pointer-events-none" />
 
-            {/* caixa da imagem */}
             <div
               className="
                 relative h-full w-full overflow-hidden rounded-sm
                 bg-gradient-to-br from-[#64ffda] to-[#64ff8d]
-                transform-gpu transition-transform duration-700 ease-out
               "
             >
-              {/* base gradiente */}
               <div className="absolute inset-0 bg-gradient-to-br from-[#64ffda] to-[#64ff8d]" />
 
-              {/* imagem (mantém hover: cor real + zoom) */}
               <Image
                 src="/projects/editsantt.png"
-                alt="Foto do Isaac"
+                alt="Preview do projeto"
                 fill
                 priority
                 className="
                   object-cover transform-gpu
                   transition duration-700 ease-out
                   mix-blend-multiply grayscale contrast-125
-                  group-hover:scale-[1.06]
+                  group-hover:scale-[1.03]
                   group-hover:grayscale-0
                   group-hover:contrast-100
                   group-hover:mix-blend-normal
                 "
-                sizes="(min-width: 1024px) 320px, 82vw"
+                sizes="(min-width: 1024px) 640px, 92vw"
               />
 
-              {/* overlay “screen” (some no hover) */}
               <div
                 className="
                   absolute inset-0
@@ -63,181 +63,143 @@ export default function FeaturedProject() {
           </div>
         </div>
 
-        {/* CONTEÚDO DESKTOP */}
-        <div
-          className="
-            relative z-20 col-span-12 row-start-1 row-end-7
-            md:col-start-1 md:col-end-7
-            p-6 sm:p-8 md:p-0 md:pl-8
-          "
-        >
-          <div className="flex items-center gap-3 mb-5 md:mb-6">
-            <span className="whitespace-nowrap font-mono text-base md:text-lg text-accent">
-              01.
-            </span>
+        {/* TEXTO */}
+        <div className="relative col-span-5 text-right">
+          <p className="font-mono text-[11px] tracking-[0.22em] uppercase text-accent">
+            Featured Project
+          </p>
 
-            <span className="whitespace-nowrap text-lg md:text-xl font-semibold tracking-tight text-text/90">
-              Sobre Mim
-            </span>
+          <h3 className="mt-2 text-2xl font-semibold tracking-tight text-text">
+            Portfólio — Isaac Santt
+          </h3>
 
-            <span className="h-px flex-1 bg-white/10" />
+          {/* card que “entra” um pouco na imagem (igual Brittany) */}
+          <div className="mt-4 rounded-lg border hairline bg-white/0 p-5 sm:p-6 text-sm text-muted leading-relaxed md:-ml-16">
+            Portfólio minimal premium com layout split, microinterações contidas,
+            foco em legibilidade, responsividade e performance.
           </div>
 
-          {/* ✅ AQUI: removido o card de fundo + parágrafos + lista estilo Brittany */}
-          <div className="text-[15px] leading-relaxed text-muted">
-            <div className="space-y-4">
-              <p>
-                Me chamo Isaac Santana Muniz, tenho 23 anos e atuo com foco em
-                back-end, desenvolvendo APIs e serviços com atenção a modelagem
-                de dados, segurança e manutenção.
-              </p>
+          <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-2 font-mono text-[11px] text-muted/80 justify-end">
+            <li>Next.js</li>
+            <li>TypeScript</li>
+            <li>Tailwind</li>
+            <li>Framer Motion</li>
+          </ul>
 
-              <p>
-                Trabalho com regras de negócio, integrações e automações,
-                buscando sempre consistência, boa organização de código e
-                entregas confiáveis.
-              </p>
+          <div className="mt-5 flex items-center gap-3 justify-end">
+            <a
+              href="https://github.com/isaacsantt"
+              target="_blank"
+              rel="noreferrer"
+              className="
+                inline-flex h-9 w-9 items-center justify-center rounded-full
+                border border-white/10 text-muted transition
+                hover:text-text hover:border-white/20 hover:bg-white/5
+              "
+              aria-label="GitHub do projeto"
+            >
+              <Github className="h-4 w-4" />
+            </a>
 
-              <p>
-                Tenho interesse forte em Cybersecurity e pretendo migrar para
-                essa área no futuro, aprofundando práticas de hardening, análise
-                de vulnerabilidades e engenharia segura.
-              </p>
-            </div>
-
-            <p className="mt-8 text-sm text-muted/80">
-              Tecnologias que venho usando recentemente:
-            </p>
-
-            <ul className="mt-3 grid grid-cols-2 gap-x-10 gap-y-2 font-mono text-xs text-muted">
-              <li className="flex items-center gap-2">
-                <span className="text-accent">▹</span> JavaScript
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-accent">▹</span> React
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-accent">▹</span> Node.js
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-accent">▹</span> C++
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-accent">▹</span> VBA
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-accent">▹</span> Python
-              </li>
-            </ul>
+            <a
+              href="#"
+              className="
+                inline-flex h-9 w-9 items-center justify-center rounded-full
+                border border-white/10 text-muted transition
+                hover:text-text hover:border-white/20 hover:bg-white/5
+              "
+              aria-label="Abrir projeto"
+            >
+              <ExternalLink className="h-4 w-4" />
+            </a>
           </div>
         </div>
       </div>
 
       {/* =========================
-          MOBILE
-          + clique liga/desliga cor real com animação
+          MOBILE (já estava ok: empilha)
           ========================= */}
       <div className="md:hidden">
-        {/* TEXTO */}
-        <div className="px-1">
-          <div className="flex items-center gap-3 mb-5 md:mb-6">
-            <span className="whitespace-nowrap font-mono text-base md:text-lg text-accent">
-              01.
-            </span>
+        <div className="relative w-full aspect-[16/10]">
+          <div className="absolute inset-0 translate-x-3 translate-y-3 rounded-sm border border-accent/60" />
 
-            <span className="whitespace-nowrap text-lg md:text-xl font-semibold tracking-tight text-text/90">
-              Sobre Mim
-            </span>
+          <button
+            type="button"
+            onClick={() => setRevealMobile((v) => !v)}
+            className="relative h-full w-full overflow-hidden rounded-sm block"
+            aria-label="Alternar cor da imagem"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-[#64ffda] to-[#64ff8d]" />
 
-            <span className="h-px flex-1 bg-white/10" />
-          </div>
+            <Image
+              src="/projects/editsantt.png"
+              alt="Preview do projeto"
+              fill
+              sizes="92vw"
+              className={
+                revealMobile
+                  ? "object-cover transform-gpu transition duration-700 ease-out mix-blend-normal grayscale-0 contrast-100 scale-[1.02]"
+                  : "object-cover transform-gpu transition duration-700 ease-out mix-blend-multiply grayscale contrast-125"
+              }
+            />
 
-          {/* ✅ AQUI: removido o card de fundo + parágrafos + lista estilo Brittany */}
-          <div className="text-[15px] leading-relaxed text-muted">
-            <div className="space-y-4">
-              <p>
-                Me chamo Isaac Santana Muniz, tenho 23 anos e atuo com foco em
-                back-end, desenvolvendo APIs e serviços com atenção a modelagem
-                de dados, segurança e manutenção.
-              </p>
-
-              <p>
-                Trabalho com regras de negócio, integrações e automações,
-                buscando sempre consistência, boa organização de código e
-                entregas confiáveis.
-              </p>
-
-              <p>
-                Tenho interesse forte em Cybersecurity e pretendo migrar para
-                essa área no futuro, aprofundando práticas de hardening, análise
-                de vulnerabilidades e engenharia segura.
-              </p>
-            </div>
-
-            <p className="mt-8 text-sm text-muted/80">
-              Tecnologias que venho usando recentemente:
-            </p>
-
-            <ul className="mt-3 grid grid-cols-2 gap-x-10 gap-y-2 font-mono text-xs text-muted">
-              <li className="flex items-center gap-2">
-                <span className="text-accent">▹</span> JavaScript
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-accent">▹</span> React
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-accent">▹</span> Node.js
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-accent">▹</span> C++
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-accent">▹</span> VBA
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-accent">▹</span> Python
-              </li>
-            </ul>
-          </div>
+            <div
+              className={
+                revealMobile
+                  ? "absolute inset-0 bg-[#0a192f] mix-blend-screen opacity-0 transition-opacity duration-700 ease-out"
+                  : "absolute inset-0 bg-[#0a192f] mix-blend-screen opacity-70 transition-opacity duration-700 ease-out"
+              }
+            />
+          </button>
         </div>
 
-        {/* FOTO (Brittany style) */}
-        <div className="mt-10 flex justify-center">
-          <div className="relative w-[280px] max-w-[82vw] aspect-square">
-            {/* frame atrás */}
-            <div className="absolute inset-0 translate-x-3 translate-y-3 rounded-sm border border-accent/60" />
+        <div className="mt-6">
+          <p className="font-mono text-[11px] tracking-[0.22em] uppercase text-accent">
+            Featured Project
+          </p>
 
-            {/* imagem (clicável) */}
-            <button
-              type="button"
-              onClick={() => setRevealMobile((v) => !v)}
-              className="relative h-full w-full overflow-hidden rounded-sm block"
-              aria-label="Alternar cor da imagem"
+          <h3 className="mt-2 text-2xl font-semibold tracking-tight text-text">
+            Portfólio — Isaac Santt
+          </h3>
+
+          <div className="mt-4 rounded-lg border hairline bg-white/0 p-5 text-sm text-muted leading-relaxed">
+            Portfólio minimal premium com layout split, microinterações contidas,
+            foco em legibilidade, responsividade e performance.
+          </div>
+
+          <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-2 font-mono text-[11px] text-muted/80">
+            <li>Next.js</li>
+            <li>TypeScript</li>
+            <li>Tailwind</li>
+            <li>Framer Motion</li>
+          </ul>
+
+          <div className="mt-5 flex items-center gap-3">
+            <a
+              href="https://github.com/isaacsantt"
+              target="_blank"
+              rel="noreferrer"
+              className="
+                inline-flex h-9 w-9 items-center justify-center rounded-full
+                border border-white/10 text-muted transition
+                hover:text-text hover:border-white/20 hover:bg-white/5
+              "
+              aria-label="GitHub do projeto"
             >
-              {/* base gradiente */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#64ffda] to-[#64ff8d]" />
+              <Github className="h-4 w-4" />
+            </a>
 
-              <Image
-                src="/projects/editsantt.png"
-                alt="Foto do Isaac"
-                fill
-                sizes="280px"
-                className={
-                  revealMobile
-                    ? "object-cover transform-gpu transition duration-700 ease-out mix-blend-normal grayscale-0 contrast-100 scale-[1.04]"
-                    : "object-cover transform-gpu transition duration-700 ease-out mix-blend-multiply grayscale contrast-125"
-                }
-              />
-
-              {/* overlay screen (some quando revealMobile = true) */}
-              <div
-                className={
-                  revealMobile
-                    ? "absolute inset-0 bg-[#0a192f] mix-blend-screen opacity-0 transition-opacity duration-700 ease-out"
-                    : "absolute inset-0 bg-[#0a192f] mix-blend-screen opacity-70 transition-opacity duration-700 ease-out"
-                }
-              />
-            </button>
+            <a
+              href="#"
+              className="
+                inline-flex h-9 w-9 items-center justify-center rounded-full
+                border border-white/10 text-muted transition
+                hover:text-text hover:border-white/20 hover:bg-white/5
+              "
+              aria-label="Abrir projeto"
+            >
+              <ExternalLink className="h-4 w-4" />
+            </a>
           </div>
         </div>
       </div>

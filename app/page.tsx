@@ -1,8 +1,8 @@
-import Hero from "@/components/sections/Hero";
-import Projects from "@/components/sections/Projects";
 import About from "@/components/sections/About";
-import Skills from "@/components/sections/Skills";
 import Timeline from "@/components/sections/Timeline";
+import Projects from "@/components/sections/Projects";
+import Hero from "@/components/sections/Hero";
+import Skills from "@/components/sections/Skills";
 import Contact from "@/components/sections/Contact";
 import Divider from "@/components/ui/Divider";
 import DesktopSplit from "@/components/layout/DesktopSplit";
@@ -10,8 +10,6 @@ import DesktopSplit from "@/components/layout/DesktopSplit";
 function Feed() {
   return (
     <>
-      <Projects />
-      <Divider />
       <About />
       <Divider />
       <Skills />
@@ -19,6 +17,8 @@ function Feed() {
       <Timeline />
       <Divider />
       <Contact />
+      <Divider />
+      <Projects />
     </>
   );
 }
@@ -35,7 +35,7 @@ export default function HomePage() {
 
       {/* Desktop: coluna fixa à esquerda + feed à direita com scroll da página */}
       <DesktopSplit>
-        <div className="pt-8">
+        <div className="pt-48">
           <Feed />
         </div>
       </DesktopSplit>

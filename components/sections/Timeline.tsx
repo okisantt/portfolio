@@ -96,7 +96,7 @@ export default function Timeline() {
   }, []);
 
   return (
-    <section id="experiencia" className="py-section-y">
+    <section id="experiencia" className="py-section-y md:mt-[18vh]">
       <Container>
 
         <div className="flex items-center gap-3 mb-10 sm:mb-14">
