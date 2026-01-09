@@ -85,7 +85,7 @@ export default function HeroDesktop() {
           <div className="mt-6 hidden md:flex flex-col gap-2 md:!mt-24">
             {/* GitHub */}
             <a
-              href="https://github.com/isaacsantt"
+              href="https://github.com/okisantt"
               target="_blank"
               rel="noreferrer"
               className="

@@ -20,28 +20,31 @@ const EXPERIENCES: Experience[] = [
     role: "Vigilante Patrimonial",
     period: "Jan 2024 — Presente",
     bullets: [
-      "Entregar código de produção robusto e bem estruturado para produtos e clientes.",
-      "Atuar junto ao time para definir arquitetura, padrões e decisões técnicas.",
-      "Evoluir qualidade com foco em consistência, manutenção e performance.",
-      "Colaborar com stakeholders para transformar requisitos em entregas reais.",
+      "Controle de acesso de pessoas e veículos, conferência de credenciais e registro de entradas/saídas.",
+      "Rondas preventivas em áreas operacionais, identificação de anomalias e acionamento conforme procedimentos.",
+      "Atendimento e registro de ocorrências, comunicação via rádio e elaboração de relatórios.",
+      "Cumprimento de normas internas e apoio à rotina de segurança patrimonial em ambiente industrial.",
+      "Elaboração e atualização de relatórios operacionais em Excel/Word/PowerBI, com padronização de registros e controle de ocorrências.",
+      "Monitoramento ativo de CFTV (câmeras e pontos críticos), identificação de desvios e acionamento conforme protocolo.",
     ],
   },
   {
     company: "AATEC",
     href: "https://www.aatec.com.br/",
-    role: "Engineer",
+    role: "Parceiro Admnistrativo",
     period: "Set 2024 — Dez 2024",
     bullets: [
-      "Construção e evolução de componentes e fluxos internos.",
-      "Correções e melhorias com foco em estabilidade e qualidade.",
+      "Participação no evento da AATEC, com envolvimento em discussões e workshops focados em avanços e tendências tecnológicas, proporcionando a ampliação de conhecimentos e oportunidades de networking com profissionais da área.",
     ],
   },
   {
     company: "Madil Carreiras",
     href: "https://www.linkedin.com/company/lumiicarreiras/",
-    role: "Dev",
+    role: "Moderador",
     period: "Mai 2024 — Nov 2024",
-    bullets: ["(Edite aqui depois com suas experiências reais)."],
+    bullets: [
+      "Gerenciamento e organização de uma comunidade voltada para o mercado de trabalho e T.I., promovendo debates, compartilhamento de conhecimento e oferecendo suporte aos membros na busca por oportunidades e crescimento profissional."
+    ],
   },
 ];
 
@@ -67,7 +70,9 @@ function ExperienceContent({ exp }: { exp: Experience }) {
         </span>
       </h3>
 
-      <p className="mt-2 text-xs sm:text-sm font-mono text-muted">{exp.period}</p>
+      <p className="mt-2 text-xs sm:text-sm font-mono text-muted">
+        {exp.period}
+      </p>
 
       <ul className="mt-5 space-y-3 text-sm text-muted leading-relaxed">
         {exp.bullets.map((b) => (
@@ -92,13 +97,15 @@ export default function Timeline() {
       e.period.length +
       e.bullets.reduce((s, b) => s + b.length, 0);
 
-    return EXPERIENCES.reduce((best, cur) => (score(cur) > score(best) ? cur : best), EXPERIENCES[0]);
+    return EXPERIENCES.reduce(
+      (best, cur) => (score(cur) > score(best) ? cur : best),
+      EXPERIENCES[0]
+    );
   }, []);
 
   return (
     <section id="experiencia" className="py-section-y md:mt-[18vh]">
       <Container>
-
         <div className="flex items-center gap-3 mb-10 sm:mb-14">
           <span className="whitespace-nowrap font-mono text-base md:text-lg text-accent">
             02.
@@ -112,7 +119,6 @@ export default function Timeline() {
         </div>
 
         <div className="grid gap-8 md:grid-cols-[220px_1fr]">
-
           <div className="md:hidden -mx-4 px-4 overflow-x-auto">
             <div className="flex min-w-max border-b border-white/10">
               {EXPERIENCES.map((e, i) => {
@@ -122,7 +128,9 @@ export default function Timeline() {
                     key={e.company}
                     type="button"
                     onClick={(ev) => {
-                      (ev.currentTarget as HTMLButtonElement).focus({ preventScroll: true });
+                      (ev.currentTarget as HTMLButtonElement).focus({
+                        preventScroll: true,
+                      });
                       setActive(i);
                     }}
                     className={cn(
@@ -155,7 +163,9 @@ export default function Timeline() {
                       key={e.company}
                       type="button"
                       onClick={(ev) => {
-                        (ev.currentTarget as HTMLButtonElement).focus({ preventScroll: true });
+                        (ev.currentTarget as HTMLButtonElement).focus({
+                          preventScroll: true,
+                        });
                         setActive(i);
                       }}
                       className={cn(
