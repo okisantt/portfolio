@@ -34,7 +34,7 @@ export default function FeaturedProject() {
               <div className="absolute inset-0 bg-gradient-to-br from-[#64ffda] to-[#64ff8d]" />
 
               <Image
-                src="/projects/editsantt.png"
+                src="/projects/image-port.png"
                 alt="Preview do projeto"
                 fill
                 priority
@@ -132,7 +132,7 @@ export default function FeaturedProject() {
             <div className="absolute inset-0 bg-gradient-to-br from-[#64ffda] to-[#64ff8d]" />
 
             <Image
-              src="/projects/editsantt.png"
+              src="/projects/image-port.png"
               alt="Preview do projeto"
               fill
               sizes="92vw"
