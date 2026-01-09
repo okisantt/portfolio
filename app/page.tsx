@@ -35,7 +35,7 @@ export default function HomePage() {
 
       {/* Desktop: coluna fixa à esquerda + feed à direita com scroll da página */}
       <DesktopSplit>
-        <div className="pt-48">
+        <div className="pt-48 md:-ml-8 lg:-ml-6">
           <Feed />
         </div>
       </DesktopSplit>

@@ -88,7 +88,7 @@ export default function FeaturedProject() {
 
           <div className="mt-5 flex items-center gap-3 justify-end">
             <a
-              href="https://github.com/isaacsantt"
+              href="https://github.com/okisantt"
               target="_blank"
               rel="noreferrer"
               className="
