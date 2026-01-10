@@ -63,7 +63,6 @@ export default function FeaturedProject() {
           </div>
         </div>
 
-        {/* TEXTO */}
         <div className="relative col-span-5 text-right">
           <p className="font-mono text-[11px] tracking-[0.22em] uppercase text-accent">
             Featured Project
@@ -73,10 +72,11 @@ export default function FeaturedProject() {
             Portfólio — Isaac Santt
           </h3>
 
-          {/* card que “entra” um pouco na imagem (igual Brittany) */}
-          <div className="mt-4 rounded-lg border hairline bg-white/0 p-5 sm:p-6 text-sm text-muted leading-relaxed md:-ml-16">
-            Portfólio minimal premium com layout split, microinterações contidas,
-            foco em legibilidade, responsividade e performance.
+          <div className="mt-4 rounded-lg border hairline bg-white/0 p-5 sm:p-6 text-sm text-muted leading-relaxed md:max-w-[360px] md:mx-auto">
+            Um portfólio minimalista construído com Next.js, TypeScript,
+            Tailwind e Framer Motion, pensado para apresentar meus projetos com
+            clareza, consistência visual e uma experiência fluida do desktop ao
+            mobile.
           </div>
 
           <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-2 font-mono text-[11px] text-muted/80 justify-end">
@@ -88,7 +88,7 @@ export default function FeaturedProject() {
 
           <div className="mt-5 flex items-center gap-3 justify-end">
             <a
-              href="https://github.com/okisantt"
+              href="https://github.com/okisantt/portfolio"
               target="_blank"
               rel="noreferrer"
               className="
@@ -115,10 +115,6 @@ export default function FeaturedProject() {
           </div>
         </div>
       </div>
-
-      {/* =========================
-          MOBILE (já estava ok: empilha)
-          ========================= */}
       <div className="md:hidden">
         <div className="relative w-full aspect-[16/10]">
           <div className="absolute inset-0 translate-x-3 translate-y-3 rounded-sm border border-accent/60" />
@@ -163,8 +159,10 @@ export default function FeaturedProject() {
           </h3>
 
           <div className="mt-4 rounded-lg border hairline bg-white/0 p-5 text-sm text-muted leading-relaxed">
-            Portfólio minimal premium com layout split, microinterações contidas,
-            foco em legibilidade, responsividade e performance.
+            Um portfólio minimalista construído com Next.js, TypeScript,
+            Tailwind e Framer Motion, pensado para apresentar meus projetos com
+            clareza, consistência visual e uma experiência fluida do desktop ao
+            mobile.
           </div>
 
           <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-2 font-mono text-[11px] text-muted/80">
@@ -176,7 +174,7 @@ export default function FeaturedProject() {
 
           <div className="mt-5 flex items-center gap-3">
             <a
-              href="https://github.com/isaacsantt"
+              href="https://github.com/okisantt/portfolio"
               target="_blank"
               rel="noreferrer"
               className="
