@@ -50,7 +50,7 @@ export default function Hero() {
               <div className="pt-8 w-full md:hidden">
                 <div className="flex items-center gap-4">
                   <a
-                    href="https://github.com/isaacsantt"
+                    href="https://github.com/okisantt"
                     target="_blank"
                     rel="noreferrer"
                     aria-label="Abrir GitHub"

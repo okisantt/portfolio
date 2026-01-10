@@ -32,12 +32,10 @@ export default function HeroDesktop() {
             Estudante de Engenharia de Software com foco em back-end. Atuando em
             banco de dados, deploy, correção de bugs e automação de sistemas.
           </p>
-
-          {/* MOBILE — somente ícones, centralizados */}
           <div className="mt-10 flex justify-center md:hidden">
             <div className="flex items-center gap-4">
               <a
-                href="https://github.com/isaacsantt"
+                href="https://github.com/okisantt"
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Abrir GitHub"
@@ -124,7 +122,7 @@ export default function HeroDesktop() {
 
             {/* LinkedIn */}
             <a
-              href="https://www.linkedin.com/in/SEU-USUARIO/"
+              href="https://www.linkedin.com/in/isaac-santt-560227379/"
               target="_blank"
               rel="noreferrer"
               className="

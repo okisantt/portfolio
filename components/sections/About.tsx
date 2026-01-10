@@ -9,9 +9,7 @@ export default function About() {
   return (
     <section id="sobre" className="py-section-y scroll-mt-20">
       <div className="mx-auto max-w-[1000px] px-4 sm:px-8 lg:px-0">
-        {/* =========================
-            DESKTOP
-            ========================= */}
+
         <div className="hidden md:grid grid-cols-12 grid-rows-6 gap-3 items-center">
           {/* IMAGEM DESKTOP */}
           <div className="relative col-span-12 row-start-1 row-end-7 md:col-start-10 md:col-end-13 justify-self-end md:mr-[-26px]">
@@ -131,9 +129,7 @@ export default function About() {
           </div>
         </div>
 
-        {/* =========================
-            MOBILE
-            ========================= */}
+        {/*MOBILE*/}
         <div className="md:hidden">
           <div className="px-1">
             <div className="flex items-center gap-3 mb-5">
