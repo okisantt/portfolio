@@ -26,16 +26,19 @@ function Feed() {
 export default function HomePage() {
   return (
     <main>
-      {/* Mobile/Small screens: fluxo tradicional (preservado) */}
-      <div className="md:hidden">
-        <Hero />
-        <Divider />
-        <Feed />
-      </div>
-
-      {/* Desktop: coluna fixa à esquerda + feed à direita com scroll da página */}
+      {/*
+        IMPORTANTE:
+        - O Feed só é renderizado UMA vez para evitar IDs duplicados (#sobre/#experiencia/#projetos)
+          que quebram o scroll por âncora no desktop.
+        - O Hero mobile continua exatamente como antes (md:hidden).
+      */}
       <DesktopSplit>
-        <div className="pt-48 md:-ml-8 lg:-ml-6">
+        <div className="md:hidden">
+          <Hero />
+          <Divider />
+        </div>
+
+        <div className="pt-0 md:pt-48 md:-ml-8 lg:-ml-6">
           <Feed />
         </div>
       </DesktopSplit>

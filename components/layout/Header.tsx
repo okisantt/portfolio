@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const SPLASH_DURATION_MS = 3500;
 const SPLASH_ANIM_DURATION = 1.9;
 
-// ajuste se a altura do seu header não for 56px
+// h-14 = 56px (se você mudar a altura do header, atualize aqui)
 const HEADER_H = 56;
 
 const links = [
@@ -74,38 +74,59 @@ export default function Header() {
   const [splash, setSplash] = useState(true);
 
   useEffect(() => {
-    // opcional: começa no topo ao carregar
+    // começa no topo ao carregar (window + container, se existir)
     if (typeof window !== "undefined") {
+      const container = document.querySelector<HTMLElement>("[data-scroll-container]");
+      if (container) container.scrollTo({ top: 0 });
       window.scrollTo(0, 0);
     }
+
     const timer = setTimeout(() => setSplash(false), SPLASH_DURATION_MS);
     return () => clearTimeout(timer);
   }, []);
 
-  function findScrollParent(start: HTMLElement) {
-    let p: HTMLElement | null = start.parentElement;
-    while (p) {
+  function getBestScrollAncestor(el: HTMLElement) {
+    // 1) Se existir um container marcado e ele contiver a seção, use ele.
+    const marked = document.querySelector<HTMLElement>("[data-scroll-container]");
+    if (
+      marked &&
+      marked.contains(el) &&
+      marked.scrollHeight - marked.clientHeight > 8
+    ) {
+      return marked;
+    }
+
+    // 2) Caso contrário, pega o ancestral rolável com MAIOR range de scroll.
+    let best: HTMLElement | null = null;
+    let bestRange = 0;
+
+    for (let p = el.parentElement; p; p = p.parentElement) {
       const s = window.getComputedStyle(p);
       const oy = s.overflowY;
-      const canScroll =
-        (oy === "auto" || oy === "scroll") && p.scrollHeight > p.clientHeight;
-      if (canScroll) return p;
-      p = p.parentElement;
+      const o = s.overflow;
+
+      const canScrollY =
+        (oy === "auto" ||
+          oy === "scroll" ||
+          oy === "overlay" ||
+          o === "auto" ||
+          o === "scroll") &&
+        p.scrollHeight - p.clientHeight > 8;
+
+      if (canScrollY) {
+        const range = p.scrollHeight - p.clientHeight;
+        if (range > bestRange) {
+          best = p;
+          bestRange = range;
+        }
+      }
     }
-    return null;
-  }
 
-  function getScrollContainerFor(el: HTMLElement) {
-    // 1) se você marcar o container no DesktopSplit, isso ganha prioridade
-    const marked = document.querySelector<HTMLElement>("[data-scroll-container]");
-    if (marked) return marked;
-
-    // 2) fallback: tenta achar automaticamente um pai rolável
-    return findScrollParent(el);
+    return best;
   }
 
   function scrollToTarget(el: HTMLElement, href?: string, updateHash = true) {
-    const container = getScrollContainerFor(el);
+    const container = getBestScrollAncestor(el);
 
     if (container) {
       const top =
@@ -162,11 +183,18 @@ export default function Header() {
     if (typeof window === "undefined") return;
     if (!href.startsWith("#")) return;
 
+    // IMPORTANTÍSSIMO: sempre prevenir o padrão do hash
+    e.preventDefault();
+
     const id = href.slice(1);
     const el = document.getElementById(id);
-    if (!el) return;
 
-    e.preventDefault();
+    // Se não existir o id na página, ao menos atualiza o hash sem mexer a tela
+    if (!el) {
+      window.history.replaceState(null, "", href);
+      if (closeMenu) setOpen(false);
+      return;
+    }
 
     if (closeMenu) {
       setOpen(false);
@@ -220,6 +248,7 @@ export default function Header() {
             <div className="hidden sm:block">
               <a
                 href="#curriculo"
+                onClick={(e) => handleNavClick(e, "#curriculo")}
                 className="inline-flex items-center rounded-full border border-accent px-8 py-2 text-xs font-medium text-accent"
               >
                 Resumo
