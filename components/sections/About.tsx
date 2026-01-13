@@ -7,17 +7,14 @@ export default function About() {
   const [revealMobile, setRevealMobile] = useState(false);
 
   return (
-    <section id="sobre" className="py-section-y scroll-mt-20">
+    <section id="sobre" className="py-section-y scroll-mt-[56px]">
       <div className="mx-auto max-w-[1000px] px-4 sm:px-8 lg:px-0">
-
         <div className="hidden md:grid grid-cols-12 grid-rows-6 gap-3 items-center">
           {/* IMAGEM DESKTOP */}
           <div className="relative col-span-12 row-start-1 row-end-7 md:col-start-10 md:col-end-13 justify-self-end md:mr-[-26px]">
             <div className="group relative w-[280px] lg:w-[320px] aspect-square">
-              {/* moldura atrás (borda deslocada) */}
               <div className="absolute inset-0 translate-x-3 translate-y-3 rounded-sm border border-accent/60 pointer-events-none" />
 
-              {/* caixa da imagem */}
               <div
                 className="
                   relative h-full w-full overflow-hidden rounded-sm
@@ -25,10 +22,8 @@ export default function About() {
                   transform-gpu transition-transform duration-700 ease-out
                 "
               >
-                {/* base gradiente */}
                 <div className="absolute inset-0 bg-gradient-to-br from-[#64ffda] to-[#64ff8d]" />
 
-                {/* imagem (mantém hover: cor real + zoom) */}
                 <Image
                   src="/projects/editsantt.png"
                   alt="Foto do Isaac"
@@ -46,7 +41,6 @@ export default function About() {
                   sizes="(min-width: 1024px) 320px, 82vw"
                 />
 
-                {/* overlay “screen” (some no hover) */}
                 <div
                   className="
                     absolute inset-0

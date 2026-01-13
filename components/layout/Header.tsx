@@ -3,11 +3,13 @@
 import { useEffect, useState } from "react";
 import type { MouseEvent as ReactMouseEvent } from "react";
 import Image from "next/image";
-import ButtonLink from "@/components/ui/ButtonLink";
 import { motion, AnimatePresence } from "framer-motion";
 
-const SPLASH_DURATION_MS = 3500; // tempo que o overlay fica na tela
-const SPLASH_ANIM_DURATION = 1.9; // duração do "pop" do símbolo
+const SPLASH_DURATION_MS = 3500;
+const SPLASH_ANIM_DURATION = 1.9;
+
+// ajuste se a altura do seu header não for 56px
+const HEADER_H = 56;
 
 const links = [
   { href: "#sobre", label: "Sobre", n: "01." },
@@ -15,30 +17,12 @@ const links = [
   { href: "#projetos", label: "Projetos", n: "03." },
 ];
 
-/** acha o pai scrollável mais próximo (funciona se o scroll for em div, não só no window) */
-function findScrollableParent(el: HTMLElement | null) {
-  if (!el || typeof window === "undefined") return null;
-
-  let node: HTMLElement | null = el.parentElement;
-  while (node) {
-    const style = window.getComputedStyle(node);
-    const overflowY = style.overflowY;
-    const canScroll =
-      (overflowY === "auto" || overflowY === "scroll") &&
-      node.scrollHeight > node.clientHeight;
-
-    if (canScroll) return node;
-    node = node.parentElement;
-  }
-  return null;
-}
-
 function SplashSMark() {
   const corners = [
-    "M18 10 H10 V26", // topo-esq
-    "M82 10 H90 V26", // topo-dir
-    "M18 90 H10 V74", // baixo-esq
-    "M82 90 H90 V74", // baixo-dir
+    "M18 10 H10 V26",
+    "M82 10 H90 V26",
+    "M18 90 H10 V74",
+    "M82 90 H90 V74",
   ];
 
   return (
@@ -58,11 +42,7 @@ function SplashSMark() {
           strokeLinejoin="round"
           initial={{ pathLength: 0, opacity: 1 }}
           animate={{ pathLength: 1, opacity: 1 }}
-          transition={{
-            duration: 2,
-            ease: "easeInOut",
-            delay: i * 0.25,
-          }}
+          transition={{ duration: 2, ease: "easeInOut", delay: i * 0.25 }}
         />
       ))}
 
@@ -81,11 +61,7 @@ function SplashSMark() {
         }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{
-          duration: 1,
-          ease: "easeInOut",
-          delay: 2.0,
-        }}
+        transition={{ duration: 1, ease: "easeInOut", delay: 2.0 }}
       >
         s
       </motion.text>
@@ -98,31 +74,77 @@ export default function Header() {
   const [splash, setSplash] = useState(true);
 
   useEffect(() => {
-    // em desktop, força iniciar no topo do window (se estiver usando window scroll)
-    if (typeof window !== "undefined" && window.innerWidth >= 1024) {
+    // opcional: começa no topo ao carregar
+    if (typeof window !== "undefined") {
       window.scrollTo(0, 0);
     }
-
     const timer = setTimeout(() => setSplash(false), SPLASH_DURATION_MS);
     return () => clearTimeout(timer);
   }, []);
 
+  function findScrollParent(start: HTMLElement) {
+    let p: HTMLElement | null = start.parentElement;
+    while (p) {
+      const s = window.getComputedStyle(p);
+      const oy = s.overflowY;
+      const canScroll =
+        (oy === "auto" || oy === "scroll") && p.scrollHeight > p.clientHeight;
+      if (canScroll) return p;
+      p = p.parentElement;
+    }
+    return null;
+  }
+
+  function getScrollContainerFor(el: HTMLElement) {
+    // 1) se você marcar o container no DesktopSplit, isso ganha prioridade
+    const marked = document.querySelector<HTMLElement>("[data-scroll-container]");
+    if (marked) return marked;
+
+    // 2) fallback: tenta achar automaticamente um pai rolável
+    return findScrollParent(el);
+  }
+
+  function scrollToTarget(el: HTMLElement, href?: string, updateHash = true) {
+    const container = getScrollContainerFor(el);
+
+    if (container) {
+      const top =
+        el.getBoundingClientRect().top -
+        container.getBoundingClientRect().top +
+        container.scrollTop -
+        HEADER_H;
+
+      container.scrollTo({ top, behavior: "smooth" });
+    } else {
+      const top = el.getBoundingClientRect().top + window.scrollY - HEADER_H;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+
+    if (updateHash && href) {
+      window.history.replaceState(null, "", href);
+    }
+  }
+
   function scrollToTop() {
     if (typeof window === "undefined") return;
 
-    // tenta pelo id primeiro (funciona melhor quando o scroll é em container)
     const topo = document.getElementById("topo");
     if (topo) {
-      topo.scrollIntoView({ behavior: "smooth", block: "start" });
+      scrollToTarget(topo, "#topo", false);
+      return;
     }
 
-    // fallback pro window
+    const container = document.querySelector<HTMLElement>("[data-scroll-container]");
+    if (container) {
+      container.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function handleLogoClick(e: ReactMouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-
     setSplash(true);
 
     setTimeout(() => {
@@ -131,15 +153,14 @@ export default function Header() {
     }, SPLASH_DURATION_MS);
   }
 
-  function handleDesktopNavClick(
+  // ✅ Scroll universal (PC e mobile, window ou container)
+  function handleNavClick(
     e: ReactMouseEvent<HTMLAnchorElement>,
-    href: string
+    href: string,
+    closeMenu?: boolean
   ) {
     if (typeof window === "undefined") return;
     if (!href.startsWith("#")) return;
-
-    // só intercepta no PC (do jeito que você pediu)
-    if (window.innerWidth < 1024) return;
 
     const id = href.slice(1);
     const el = document.getElementById(id);
@@ -147,25 +168,15 @@ export default function Header() {
 
     e.preventDefault();
 
-    const headerOffset = 64;
-
-    const scrollParent = findScrollableParent(el);
-
-    if (scrollParent) {
-      // scroll dentro do container
-      const parentRect = scrollParent.getBoundingClientRect();
-      const elRect = el.getBoundingClientRect();
-      const top =
-        elRect.top - parentRect.top + scrollParent.scrollTop - headerOffset;
-
-      scrollParent.scrollTo({ top, behavior: "smooth" });
+    if (closeMenu) {
+      setOpen(false);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => scrollToTarget(el, href, true));
+      });
       return;
     }
 
-    // fallback: scroll no window
-    const rect = el.getBoundingClientRect();
-    const top = rect.top + window.scrollY - headerOffset;
-    window.scrollTo({ top, behavior: "smooth" });
+    scrollToTarget(el, href, true);
   }
 
   return (
@@ -197,7 +208,7 @@ export default function Header() {
                 <a
                   key={l.href}
                   href={l.href}
-                  onClick={(e) => handleDesktopNavClick(e, l.href)}
+                  onClick={(e) => handleNavClick(e, l.href)}
                   className="group inline-flex items-center gap-2 text-xs font-mono text-muted hover:text-text transition"
                 >
                   <span className="text-accent">{l.n}</span>
@@ -214,6 +225,7 @@ export default function Header() {
                 Resumo
               </a>
             </div>
+
             <button
               type="button"
               className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-muted md:hidden"
@@ -277,7 +289,7 @@ export default function Header() {
                   <motion.a
                     key={l.href}
                     href={l.href}
-                    onClick={() => setOpen(false)}
+                    onClick={(e) => handleNavClick(e, l.href, true)}
                     className="text-base text-muted hover:text-text transition"
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -320,7 +332,6 @@ export default function Header() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
           >
-            {/* 1 wrapper + 1 símbolo (SEM duplicar) */}
             <motion.div
               className="flex items-center justify-center"
               initial={{ scale: 0.7, opacity: 0 }}
