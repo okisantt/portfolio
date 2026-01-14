@@ -28,7 +28,7 @@ export default function HomePage() {
     <main>
       {/*
         IMPORTANTE:
-        - O Feed só é renderizado UMA vez para evitar IDs duplicados (#sobre/#experiencia/#projetos)
+        - O Feed só é renderizado UMA vez para evitar IDs duplicados (#sobre/#experiencia/#projetos/#certificacoes)
           que quebram o scroll por âncora no desktop.
         - O Hero mobile continua exatamente como antes (md:hidden).
       */}
