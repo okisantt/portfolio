@@ -34,7 +34,7 @@ export default function DesktopSplit({
       </aside>
 
       {/* Conteúdo (mobile + desktop). No desktop ganha espaço da coluna esquerda */}
-      <div className="w-full md:ml-[var(--aside-w)] md:-translate-x-16 lg:-translate-x-56">
+      <div className="w-full md:ml-[var(--aside-w)] md:-translate-x-16 lg:-translate-x-64">
   {children}
 </div>
 
