@@ -252,6 +252,65 @@ export default function EpiSentinelShots() {
               reduz falhas de conformidade com alertas, trilha de auditoria e
               visibilidade por setor/custo.
             </p>
+
+            {/* ✅ ADIÇÃO: Notas rápidas abaixo do quadrado (SOMENTE MOBILE) */}
+            <div className="md:hidden mt-5">
+              <details className="rounded-xl border border-white/10 bg-white/0">
+                <summary
+                  className="
+                    cursor-pointer list-none select-none
+                    px-4 py-4 flex items-center justify-between
+                    font-mono text-[11px] tracking-[0.22em] uppercase
+                    text-accent/85
+                  "
+                >
+                  Notas rápidas
+                  <span className="text-muted/60">+</span>
+                </summary>
+
+                <div className="px-4 pb-4 pt-1">
+                  <h4 className="mt-1 text-sm font-semibold tracking-tight text-text/90">
+                    Detalhes da case
+                  </h4>
+
+                  <p className="mt-3 text-sm leading-relaxed text-muted/85">
+                    Consigo transformar um processo manual e sujeito a falhas
+                    (controle de EPIs) em um fluxo rastreável, com regras de
+                    negócio claras, dados consistentes e auditoria. O foco foi
+                    reduzir risco de não conformidade e deixar a operação
+                    rápida: saber quem recebeu, o que vence, o que está pendente
+                    e por quê — em poucos cliques.
+                  </p>
+
+                  <div className="mt-6 border-t border-white/10 pt-5">
+                    <p className="font-mono text-[11px] tracking-[0.22em] uppercase text-muted/80">
+                      Highlights
+                    </p>
+
+                    <ul className="mt-3 space-y-2 text-sm text-muted/85">
+                      <li className="flex items-start gap-2">
+                        <span className="text-accent">▹</span>
+                        <span>Controle de EPIs, validade e rastreabilidade.</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-accent">▹</span>
+                        <span>Auditoria e histórico de ações.</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-accent">▹</span>
+                        <span>UX objetiva, foco em operação.</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-accent">▹</span>
+                        <span>
+                          Validade e reposição com alertas e visão por colaborador/setor.
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </details>
+            </div>
           </div>
         </div>
 

@@ -20,6 +20,7 @@ export default function FeaturedProject() {
 
         <span className="h-px flex-1 bg-white/10" />
       </div>
+
       <div className="hidden md:grid grid-cols-12 items-center gap-6">
         <div className="relative col-span-7">
           <div className="group relative w-full max-w-[640px] aspect-[16/10]">
@@ -115,6 +116,7 @@ export default function FeaturedProject() {
           </div>
         </div>
       </div>
+
       <div className="md:hidden">
         <div className="relative w-full aspect-[16/10]">
           <div className="absolute inset-0 translate-x-3 translate-y-3 rounded-sm border border-accent/60" />
