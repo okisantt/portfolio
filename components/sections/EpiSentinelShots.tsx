@@ -12,17 +12,17 @@ export default function EpiSentinelShots() {
     () => [
       {
         src: "/projects/epi-sentinel01.png",
-        label: "Tela 01 — Login (edite depois)",
+        label: "Tela 01 — Login",
         alt: "EPI Sentinel - Tela de Login",
       },
       {
         src: "/projects/epi-sentinel02.png",
-        label: "Tela 02 — Dashboard (edite depois)",
+        label: "Tela 02 — Dashboard",
         alt: "EPI Sentinel - Dashboard",
       },
       {
         src: "/projects/epi-sentinel03.png",
-        label: "Tela 03 — Auditoria (edite depois)",
+        label: "Tela 03 — Auditoria",
         alt: "EPI Sentinel - Auditoria",
       },
     ],
@@ -75,13 +75,13 @@ export default function EpiSentinelShots() {
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="font-mono text-[11px] tracking-[0.22em] uppercase text-accent/85">
-                  Case Study
+                  Projeto Pessoal
                 </p>
                 <h3 className="mt-2 text-base sm:text-lg font-semibold tracking-tight text-text/95">
-                  EPI Sentinel — telas principais (edite depois)
+                  EPI Sentinel — telas principais
                 </h3>
                 <p className="mt-1 font-mono text-[11px] text-muted/80">
-                  Next.js • TypeScript • Tailwind • (placeholder)
+                  Next.js • TypeScript • Tailwind
                 </p>
               </div>
 
@@ -225,7 +225,11 @@ export default function EpiSentinelShots() {
                       }}
                       className={`
                         h-2 rounded-full transition-all duration-500 ease-out
-                        ${i === active ? "w-7 bg-accent/85" : "w-2 bg-white/25 hover:bg-white/40"}
+                        ${
+                          i === active
+                            ? "w-7 bg-accent/85"
+                            : "w-2 bg-white/25 hover:bg-white/40"
+                        }
                       `}
                       aria-label={`Ir para imagem ${i + 1}`}
                     />
@@ -244,9 +248,9 @@ export default function EpiSentinelShots() {
 
             {/* texto inferior do card */}
             <p className="mt-4 text-sm text-muted/85 leading-relaxed">
-              Texto curto aqui (placeholder) — descreva a ideia do sistema e o que
-              essas telas demonstram. No mobile: deslize para trocar ou toque para
-              revelar a cor.
+              Centraliza controle de EPIs (entrega, validade e reposição) e
+              reduz falhas de conformidade com alertas, trilha de auditoria e
+              visibilidade por setor/custo.
             </p>
           </div>
         </div>
@@ -259,12 +263,16 @@ export default function EpiSentinelShots() {
             </p>
 
             <h4 className="mt-2 text-sm font-semibold tracking-tight text-text/90">
-              O que esse case prova (edite depois)
+              Detalhes da case
             </h4>
 
             <p className="mt-3 text-sm leading-relaxed text-muted/85">
-              Escreva aqui uma visão sofisticada e direta: contexto, objetivo e
-              por que isso importa. Algo curto, com “cara” premium.
+              Consigo transformar um processo manual e sujeito a falhas
+              (controle de EPIs) em um fluxo rastreável, com regras de negócio
+              claras, dados consistentes e auditoria. O foco foi reduzir risco
+              de não conformidade e deixar a operação rápida: saber quem
+              recebeu, o que vence, o que está pendente e por quê — em poucos
+              cliques.
             </p>
 
             <div className="mt-6 border-t border-white/10 pt-5">
@@ -275,15 +283,19 @@ export default function EpiSentinelShots() {
               <ul className="mt-3 space-y-2 text-sm text-muted/85">
                 <li className="flex items-start gap-2">
                   <span className="text-accent">▹</span>
-                  <span>Controle de EPIs, validade e rastreabilidade (placeholder)</span>
+                  <span>Controle de EPIs, validade e rastreabilidade.</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-accent">▹</span>
-                  <span>Auditoria e histórico de ações (placeholder)</span>
+                  <span>Auditoria e histórico de ações.</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-accent">▹</span>
-                  <span>UX objetiva, foco em operação (placeholder)</span>
+                  <span>UX objetiva, foco em operação.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-accent">▹</span>
+                  <span>Validade e reposição com alertas e visão por colaborador/setor.</span>
                 </li>
               </ul>
             </div>
