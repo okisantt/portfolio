@@ -8,20 +8,20 @@ export default function Footer() {
       {/* Mobile: footer normal, ocupando toda a largura */}
       <div className="md:hidden">
         <Container className="py-10">
-          <p className="text-xs text-muted">
-            © {new Date().getFullYear()} Isaac Santana Muniz. Construído com foco em
-            clareza, performance e estética minimal premium.
-          </p>
+          <p className="w-full text-center font-mono text-[11px] tracking-[0.22em] text-text/70 font-medium">
+  © 2026 Isaac Santana Muniz.
+</p>
+
         </Container>
       </div>
 
       {/* Desktop: alinhado com a coluna da direita */}
       <div className="hidden md:block" style={{ marginLeft: DESKTOP_ASIDE_WIDTH }}>
         <Container className="py-10">
-          <p className="text-xs text-muted">
-            © {new Date().getFullYear()} Isaac Santana Muniz. Construído com foco em
-            clareza, performance e estética minimal premium.
-          </p>
+          <p className="w-full text-center font-mono text-[11px] tracking-[0.22em] text-text/70 font-medium">
+  © 2026 Isaac Santana Muniz.
+</p>
+
         </Container>
       </div>
     </footer>
