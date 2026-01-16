@@ -31,10 +31,10 @@ const EXPERIENCES: Experience[] = [
   {
     company: "AATEC",
     href: "https://www.aatec.com.br/",
-    role: "Parceiro Admnistrativo",
+    role: "Parceiro Administrativo",
     period: "Set 2024 — Dez 2024",
     bullets: [
-      "Participação no evento da AATEC, com envolvimento em discussões e workshops focados em avanços e tendências tecnológicas, proporcionando a ampliação de conhecimentos e oportunidades de networking com profissionais da área.",
+      "Participação no evento da AATEC, com envolvimento em discussões e workshops focados em avanços e tendências tecnológicas, ampliando conhecimentos e networking com profissionais da área.",
     ],
   },
   {
@@ -43,7 +43,7 @@ const EXPERIENCES: Experience[] = [
     role: "Moderador",
     period: "Mai 2024 — Nov 2024",
     bullets: [
-      "Gerenciamento e organização de uma comunidade voltada para o mercado de trabalho e T.I., promovendo debates, compartilhamento de conhecimento e oferecendo suporte aos membros na busca por oportunidades e crescimento profissional."
+      "Gerenciamento e organização de uma comunidade voltada para o mercado de trabalho e T.I., promovendo debates, compartilhamento de conhecimento e suporte aos membros.",
     ],
   },
 ];
@@ -70,9 +70,7 @@ function ExperienceContent({ exp }: { exp: Experience }) {
         </span>
       </h3>
 
-      <p className="mt-2 text-xs sm:text-sm font-mono text-muted">
-        {exp.period}
-      </p>
+      <p className="mt-2 text-xs sm:text-sm font-mono text-muted">{exp.period}</p>
 
       <ul className="mt-5 space-y-3 text-sm text-muted leading-relaxed">
         {exp.bullets.map((b) => (
@@ -104,58 +102,28 @@ export default function Timeline() {
   }, []);
 
   return (
-    <section id="experiencia" className="py-section-y md:mt-[18vh]">
+    <section id="experiencia" className="py-section-y scroll-mt-24 md:scroll-mt-28">
       <Container>
-        <div className="flex items-center gap-3 mb-10 sm:mb-14">
-          <span className="whitespace-nowrap font-mono text-base md:text-lg text-accent">
-            02.
-          </span>
+        {/* ✅ ÚNICO lugar que controla o “empurrão” do 02 + conteúdo (desktop) */}
+        <div className="md:pl-12">
+          {/* Header */}
+          <div className="flex items-center gap-4 mb-10 sm:mb-14">
+            <span className="whitespace-nowrap font-mono tabular-nums text-base md:text-lg text-accent">
+              02.
+            </span>
 
-          <span className="whitespace-nowrap text-lg md:text-xl font-semibold tracking-tight text-text/90">
-            Experiência
-          </span>
+            <h2 className="whitespace-nowrap text-lg md:text-xl font-semibold tracking-tight text-text/90">
+              Experiência
+            </h2>
 
-          <span className="h-px flex-1 bg-white/10" />
-        </div>
-
-        <div className="grid gap-8 md:grid-cols-[220px_1fr]">
-          <div className="md:hidden -mx-4 px-4 overflow-x-auto">
-            <div className="flex min-w-max border-b border-white/10">
-              {EXPERIENCES.map((e, i) => {
-                const isActive = i === active;
-                return (
-                  <button
-                    key={e.company}
-                    type="button"
-                    onClick={(ev) => {
-                      (ev.currentTarget as HTMLButtonElement).focus({
-                        preventScroll: true,
-                      });
-                      setActive(i);
-                    }}
-                    className={cn(
-                      "relative px-4 py-3 text-sm font-mono transition",
-                      isActive ? "text-accent" : "text-muted hover:text-text"
-                    )}
-                  >
-                    <span>{e.company}</span>
-                    <span
-                      className={cn(
-                        "absolute left-0 right-0 -bottom-[1px] h-[2px] transition",
-                        isActive ? "bg-accent" : "bg-transparent"
-                      )}
-                    />
-                  </button>
-                );
-              })}
-            </div>
+            <span className="h-px flex-1 bg-white/10" />
           </div>
 
-          <div className="hidden md:block">
-            <div className="relative pl-3">
-              <div className="absolute left-0 top-0 bottom-0 w-px bg-white/10" />
-
-              <div className="flex flex-col">
+          {/* Conteúdo */}
+          <div className="grid gap-8 md:grid-cols-[200px_1fr] lg:grid-cols-[220px_1fr]">
+            {/* Tabs mobile */}
+            <div className="md:hidden -mx-4 px-4 overflow-x-auto">
+              <div className="flex min-w-max border-b border-white/10">
                 {EXPERIENCES.map((e, i) => {
                   const isActive = i === active;
                   return (
@@ -169,39 +137,77 @@ export default function Timeline() {
                         setActive(i);
                       }}
                       className={cn(
-                        "group relative w-full text-left pl-4 pr-3 py-3 text-sm font-mono transition",
-                        isActive
-                          ? "text-accent bg-white/5"
-                          : "text-muted hover:text-text"
+                        "relative px-4 py-3 text-sm font-mono transition",
+                        isActive ? "text-accent" : "text-muted hover:text-text"
                       )}
                     >
+                      <span>{e.company}</span>
                       <span
                         className={cn(
-                          "absolute left-0 top-0 h-full w-[2px] transition",
-                          isActive
-                            ? "bg-accent"
-                            : "bg-transparent group-hover:bg-white/20"
+                          "absolute left-0 right-0 -bottom-[1px] h-[2px] transition",
+                          isActive ? "bg-accent" : "bg-transparent"
                         )}
                       />
-                      {e.company}
                     </button>
                   );
                 })}
               </div>
             </div>
-          </div>
 
-          <FadeIn>
-            <div className="relative overflow-hidden">
-              <div aria-hidden="true" className="invisible pointer-events-none">
-                <ExperienceContent exp={tallest} />
-              </div>
+            {/* Lista desktop */}
+            <div className="hidden md:block">
+              <div className="relative pl-3">
+                <div className="absolute left-0 top-0 bottom-0 w-px bg-white/10" />
 
-              <div className="absolute inset-0">
-                <ExperienceContent exp={exp} />
+                <div className="flex flex-col">
+                  {EXPERIENCES.map((e, i) => {
+                    const isActive = i === active;
+                    return (
+                      <button
+                        key={e.company}
+                        type="button"
+                        onClick={(ev) => {
+                          (ev.currentTarget as HTMLButtonElement).focus({
+                            preventScroll: true,
+                          });
+                          setActive(i);
+                        }}
+                        className={cn(
+                          "group relative w-full text-left pl-4 pr-3 py-3 text-sm font-mono transition",
+                          isActive
+                            ? "text-accent bg-white/5"
+                            : "text-muted hover:text-text"
+                        )}
+                      >
+                        <span
+                          className={cn(
+                            "absolute left-0 top-0 h-full w-[2px] transition",
+                            isActive
+                              ? "bg-accent"
+                              : "bg-transparent group-hover:bg-white/20"
+                          )}
+                        />
+                        {e.company}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </div>
-          </FadeIn>
+
+            {/* Painel direito */}
+            <FadeIn>
+              <div className="relative overflow-hidden">
+                <div aria-hidden="true" className="invisible pointer-events-none">
+                  <ExperienceContent exp={tallest} />
+                </div>
+
+                <div className="absolute inset-0">
+                  <ExperienceContent exp={exp} />
+                </div>
+              </div>
+            </FadeIn>
+          </div>
         </div>
       </Container>
     </section>
