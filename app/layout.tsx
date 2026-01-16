@@ -20,7 +20,7 @@ const heroSora = Sora({
 
 const SITE_NAME = "Isaac Santana Muniz";
 const SITE_DESC = "Portfólio.";
-const SITE_URL = "https://seu-dominio.com"; // troque
+const SITE_URL = "https://santt.dev"; // troque
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -29,6 +29,13 @@ export const metadata: Metadata = {
     template: `%s — ${SITE_NAME}`,
   },
   description: SITE_DESC,
+
+  // ✅ Favicon usando o seu "S"
+  icons: {
+    icon: [{ url: "/avatar-logo-isaac.png", type: "image/png" }],
+    shortcut: [{ url: "/avatar-logo-isaac.png", type: "image/png" }],
+    apple: [{ url: "/avatar-logo-isaac.png", type: "image/png" }],
+  },
 };
 
 export default function RootLayout({
