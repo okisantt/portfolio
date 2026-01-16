@@ -1,4 +1,4 @@
-# Portfolio Minimal Premium (Dark-only)
+# Portfolio
 
 Portfólio pessoal com visual minimalista e navegação simples. O foco é apresentar perfil, experiência e projetos com boa leitura no desktop e no mobile.
 
