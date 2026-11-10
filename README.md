@@ -3,10 +3,20 @@
 Portfólio em Next.js com apresentação responsiva, navegação acessível e um fluxo
 server-side para solicitar acesso ao currículo profissional.
 
+## Estrutura
+
+- `/` — capa com animação de entrada e o menu das seções
+- `/biografia`, `/experiencia-tecnologia`, `/experiencia-operacional`,
+  `/ciberseguranca` — páginas numeradas de leitura
+- `/projetos` e `/projetos/[slug]` — pilha de projetos e a página de cada um
+- `/curriculo` — solicitação de acesso ao currículo
+
+Os textos ficam em `lib/content.ts` e os projetos em `lib/projects.ts`.
+
 ## Stack
 
 - Next.js 16 (App Router), React 19 e TypeScript
-- Tailwind CSS e Framer Motion com `prefers-reduced-motion`
+- Tailwind CSS e animações em CSS, respeitando `prefers-reduced-motion`
 - PostgreSQL para solicitações, rate limiting e auditoria
 - Supabase Storage em bucket privado para o PDF
 - Resend para códigos e notificações por e-mail

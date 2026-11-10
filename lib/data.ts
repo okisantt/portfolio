@@ -9,56 +9,16 @@ export const SITE = {
   linkedin: "https://www.linkedin.com/in/isaac-santt-560227379/",
 } as const;
 
-export const SKILL_GROUPS = [
-  {
-    title: "Back-end",
-    description: "APIs, regras de negócio e serviços preparados para evoluir.",
-    items: ["Node.js", "Python", "APIs REST", "Banco de dados"],
-  },
-  {
-    title: "Front-end",
-    description: "Interfaces responsivas para dar forma e clareza aos produtos.",
-    items: ["React", "Next.js", "TypeScript", "Tailwind CSS"],
-  },
-  {
-    title: "Operação & dados",
-    description: "Automação e visibilidade para reduzir trabalho manual e falhas.",
-    items: ["VBA", "Power BI", "Excel", "Deploy"],
-  },
+/**
+ * The five destinations of the site. `word` is the single word shown in large
+ * type on the menu band and on the transition screen.
+ */
+export const NAV = [
+  { href: "/biografia", label: "Biografia", short: "Biografia", word: "Biografia" },
+  { href: "/experiencia-tecnologia", label: "Experiência Tecnologia", short: "Tecnologia", word: "Tecnologia" },
+  { href: "/experiencia-operacional", label: "Experiência Operacional", short: "Operacional", word: "Operacional" },
+  { href: "/projetos", label: "Projetos", short: "Projetos", word: "Projetos" },
+  { href: "/ciberseguranca", label: "Cibersegurança", short: "Cibersegurança", word: "Cibersegurança" },
 ] as const;
 
-export const EXPERIENCES = [
-  {
-    company: "G4S Vanguarda",
-    href: "https://www.g4s.com/pt-br",
-    role: "Vigilante Patrimonial",
-    period: "Jan 2024 — presente",
-    description:
-      "Atuação em ambiente industrial com controle de acesso, CFTV, rondas preventivas e resposta a ocorrências. Também elaboro relatórios operacionais em Excel, Word e Power BI, conectando rotina, análise e melhoria de processo.",
-  },
-  {
-    company: "AATEC",
-    href: "https://www.aatec.com.br/",
-    role: "Parceiro Administrativo",
-    period: "Set 2024 — dez 2024",
-    description:
-      "Apoio administrativo e participação em discussões e workshops sobre tecnologia, ampliando repertório técnico e relacionamento com profissionais da área.",
-  },
-  {
-    company: "Madil Carreiras",
-    href: "https://www.linkedin.com/company/lumiicarreiras/",
-    role: "Moderador",
-    period: "Mai 2024 — nov 2024",
-    description:
-      "Organização e moderação de uma comunidade voltada ao mercado de trabalho e à tecnologia, promovendo troca de conhecimento e suporte aos membros.",
-  },
-] as const;
-
-export const TECHNOLOGIES = [
-  "JavaScript",
-  "React",
-  "Node.js",
-  "C++",
-  "VBA",
-  "Python",
-] as const;
+export type NavItem = (typeof NAV)[number];

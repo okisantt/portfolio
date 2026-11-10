@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   serverExternalPackages: ["postgres"],
   experimental: {
-    optimizePackageImports: ["framer-motion", "lucide-react"],
+    optimizePackageImports: ["lucide-react"],
   },
   async headers() {
     const contentSecurityPolicy = [

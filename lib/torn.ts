@@ -74,39 +74,18 @@ export function tornEdge({
   return `polygon(0% 0%,${edge.join(",")},0% 100%)`;
 }
 
-/** A thin horizontal scrap, torn along both edges and tapering at the ends. */
-export function tornBand(seed: number) {
+/** A full-width band whose top edge is torn; the other three sides stay straight. */
+export function tornTop(seed: number, amp = 9) {
   const random = mulberry32(seed);
-  const steps = 90;
-  const top: string[] = [];
-  const bottom: string[] = [];
-  let up = 0;
-  let down = 0;
+  const steps = 110;
+  const edge: string[] = [];
+  let drift = 0;
 
   for (let i = 0; i <= steps; i++) {
-    const x = (i / steps) * 100;
-    const envelope = Math.pow(Math.sin((Math.PI * i) / steps), 0.45);
-    up = up * 0.6 + (random() - 0.5) * 26;
-    down = down * 0.6 + (random() - 0.5) * 26;
-    top.push(`${pct(x, 1)} ${pct(50 - (24 + up) * envelope, 1)}`);
-    bottom.unshift(`${pct(x, 1)} ${pct(50 + (24 + down) * envelope, 1)}`);
+    drift = drift * 0.7 + (random() - 0.5) * amp;
+    const notch = random() < 0.1 ? random() * amp * 0.9 : 0;
+    edge.push(`${pct((i / steps) * 100, 1)} ${pct(Math.max(0, amp * 0.9 + drift + notch))}`);
   }
 
-  return `polygon(${[...top, ...bottom].join(",")})`;
-}
-
-/** A rectangle whose four sides are slightly torn. */
-export function tornRect(seed: number, ampX = 0.7, ampY = 2.4) {
-  const random = mulberry32(seed);
-  const long = 70;
-  const short = 16;
-  const jag = (amp: number) => random() * amp + (random() < 0.12 ? random() * amp : 0);
-  const out: string[] = [];
-
-  for (let i = 0; i <= long; i++) out.push(`${pct((i / long) * 100, 1)} ${pct(jag(ampY))}`);
-  for (let i = 1; i < short; i++) out.push(`${pct(100 - jag(ampX))} ${pct((i / short) * 100, 1)}`);
-  for (let i = long; i >= 0; i--) out.push(`${pct((i / long) * 100, 1)} ${pct(100 - jag(ampY))}`);
-  for (let i = short - 1; i >= 1; i--) out.push(`${pct(jag(ampX))} ${pct((i / short) * 100, 1)}`);
-
-  return `polygon(${out.join(",")})`;
+  return `polygon(${edge.join(",")},100% 100%,0% 100%)`;
 }

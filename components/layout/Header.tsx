@@ -5,21 +5,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-
-const links = [
-  { href: "/#sobre", label: "Sobre" },
-  { href: "/#habilidades", label: "Habilidades" },
-  { href: "/#experiencia", label: "Experiência" },
-  { href: "/#projetos", label: "Projetos" },
-  { href: "/#contato", label: "Contato" },
-];
+import TransitionLink from "@/components/transition/TransitionLink";
+import { NAV } from "@/lib/data";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const home = pathname === "/";
   // On the cover of the home page the header floats over the torn paper.
-  const overCover = pathname === "/" && !scrolled;
+  const overCover = home && !scrolled;
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -79,8 +74,9 @@ export default function Header() {
       }`}
     >
       <div className="flex h-20 w-full items-center justify-between px-5 sm:px-8 lg:px-[4.6%]">
-        <Link
-          href="/#topo"
+        <TransitionLink
+          href="/"
+          word="Início"
           className={`inline-flex min-h-11 items-center gap-3 rounded-full pr-2 text-sm font-semibold tracking-tight text-text transition-opacity duration-300 ${
             overCover ? "pointer-events-none opacity-0" : "opacity-100"
           }`}
@@ -97,23 +93,33 @@ export default function Header() {
             priority
           />
           <span className="hidden sm:inline">Isaac Santt</span>
-        </Link>
+        </TransitionLink>
 
-        <div className="hidden items-center gap-7 lg:flex">
-          <nav aria-label="Navegação principal">
-            <ul className="flex items-center gap-6">
-              {links.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="rounded-sm py-3 text-[11px] font-medium uppercase tracking-[0.22em] text-text/75 transition-colors hover:text-text"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+        <div className="hidden items-center gap-7 xl:flex">
+          {/* On the home page the row under the cover is the navigation. */}
+          {!home && (
+            <nav aria-label="Navegação principal">
+              <ul className="flex items-center gap-6">
+                {NAV.map((item) => {
+                  const current = pathname === item.href || pathname.startsWith(`${item.href}/`);
+                  return (
+                    <li key={item.href}>
+                      <TransitionLink
+                        href={item.href}
+                        word={item.word}
+                        aria-current={current ? "page" : undefined}
+                        className={`rounded-sm py-3 text-[11px] font-medium uppercase tracking-[0.2em] transition-colors hover:text-text ${
+                          current ? "text-text" : "text-text/60"
+                        }`}
+                      >
+                        {item.short}
+                      </TransitionLink>
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
+          )}
           <Link
             href="/curriculo"
             className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/25 px-5 text-xs font-semibold text-text transition-colors hover:border-white/60 hover:bg-white/[0.06]"
@@ -125,7 +131,7 @@ export default function Header() {
         <button
           ref={menuButtonRef}
           type="button"
-          className="inline-flex min-h-11 items-center px-1 text-[11px] font-medium uppercase tracking-[0.26em] text-text/85 transition-colors hover:text-text lg:hidden"
+          className="inline-flex min-h-11 items-center px-1 text-[11px] font-medium uppercase tracking-[0.26em] text-text/85 transition-colors hover:text-text xl:hidden"
           aria-label="Abrir menu"
           aria-expanded={open}
           aria-controls="menu-mobile"
@@ -142,11 +148,13 @@ export default function Header() {
           role="dialog"
           aria-modal="true"
           aria-label="Menu de navegação"
-          className="fixed inset-0 z-50 min-h-dvh bg-bg px-5 py-5 lg:hidden"
+          className="fixed inset-0 z-50 min-h-dvh bg-bg px-5 py-5 xl:hidden"
         >
           <div className="mx-auto flex h-full max-w-2xl flex-col">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-semibold">Navegação</span>
+              <span className="text-[11px] font-medium uppercase tracking-[0.26em] text-text/70">
+                Navegação
+              </span>
               <button
                 ref={closeButtonRef}
                 type="button"
@@ -160,18 +168,19 @@ export default function Header() {
 
             <nav className="flex flex-1 items-center" aria-label="Navegação mobile">
               <ul className="w-full">
-                {links.map((link, index) => (
-                  <li key={link.href} className="border-b border-white/[0.07]">
-                    <Link
-                      href={link.href}
-                      onClick={() => setOpen(false)}
-                      className="flex min-h-16 items-center gap-4 text-lg text-text"
+                {[{ href: "/", label: "Início", word: "Início" }, ...NAV].map((item, index) => (
+                  <li key={item.href} className="border-b border-white/[0.07]">
+                    <TransitionLink
+                      href={item.href}
+                      word={item.word}
+                      onNavigate={() => setOpen(false)}
+                      className="flex min-h-16 items-center gap-4 text-lg font-light text-text"
                     >
                       <span className="text-[10px] font-semibold tracking-[0.2em] text-accent">
-                        {String(index + 1).padStart(2, "0")}
+                        {String(index).padStart(2, "0")}
                       </span>
-                      {link.label}
-                    </Link>
+                      {item.label}
+                    </TransitionLink>
                   </li>
                 ))}
               </ul>

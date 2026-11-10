@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FileText, Github, Linkedin } from "lucide-react";
 import HeroClock from "@/components/hero/HeroClock";
+import TransitionLink from "@/components/transition/TransitionLink";
 import { SITE } from "@/lib/data";
 import { tornEdge } from "@/lib/torn";
 
@@ -32,8 +33,8 @@ export default function Hero() {
         <Image
           src="/isaac-portrait.jpg"
           alt="Retrato em preto e branco de Isaac Santana Muniz"
-          width={864}
-          height={878}
+          width={3840}
+          height={3902}
           priority
           sizes="(max-width: 767px) 115vw, (max-aspect-ratio: 1/1) 115vw, 62vw"
           className="hero-photo"
@@ -48,10 +49,10 @@ export default function Hero() {
           Olá
         </p>
         <a
-          href="#sobre"
+          href="#menu"
           className="hero-c hero-arrow"
           style={delay(0.9)}
-          aria-label="Ir para a seção Sobre"
+          aria-label="Ir para o menu"
         >
           ↓
         </a>
@@ -77,9 +78,9 @@ export default function Hero() {
             entender o problema antes de escrever a primeira linha de código.
           </p>
           <div className="hero-ctas">
-            <Link href="/#projetos" className="hero-btn hero-btn-solid">
+            <TransitionLink href="/projetos" word="Projetos" className="hero-btn hero-btn-solid">
               Ver projetos
-            </Link>
+            </TransitionLink>
             <Link href="/curriculo" className="hero-btn hero-btn-ghost">
               Solicitar currículo
             </Link>

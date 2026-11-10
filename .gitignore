@@ -18,8 +18,5 @@ private-documents/
 .vscode/
 .DS_Store
 
-# brainstorm mockups
-.superpowers/
-
 # typescript incremental cache
 *.tsbuildinfo

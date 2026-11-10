@@ -212,7 +212,7 @@ export default function ResumeRequestForm({
             <button
               type="submit"
               disabled={loading || (turnstileRequired && !turnstileSiteKey)}
-              className="mt-7 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-text px-6 text-sm font-semibold text-wine transition-opacity disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+              className="mt-7 flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-text px-6 text-sm font-semibold text-wine transition-opacity disabled:cursor-not-allowed disabled:opacity-50 sm:w-fit"
             >
               {loading && <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden="true" />}
               Enviar código de verificação

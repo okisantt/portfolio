@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Montserrat } from "next/font/google";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import TransitionProvider from "@/components/transition/TransitionProvider";
 import { SITE } from "@/lib/data";
 import "./globals.css";
 
@@ -54,9 +55,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a className="skip-link" href="#conteudo">
           Pular para o conteúdo
         </a>
-        <Header />
-        {children}
-        <Footer />
+        <TransitionProvider>
+          <Header />
+          {children}
+          <Footer />
+        </TransitionProvider>
       </body>
     </html>
   );
