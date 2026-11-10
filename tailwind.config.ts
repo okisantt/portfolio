@@ -15,6 +15,7 @@ export default {
         text: "rgb(var(--text) / <alpha-value>)",
         muted: "rgb(var(--muted) / <alpha-value>)",
         accent: "rgb(var(--accent) / <alpha-value>)",
+        wine: "rgb(var(--wine) / <alpha-value>)",
         border: "rgb(var(--border) / <alpha-value>)"
       },
       borderRadius: {

@@ -1,378 +1,192 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import type { MouseEvent as ReactMouseEvent } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-
-const SPLASH_DURATION_MS = 3500;
-const SPLASH_ANIM_DURATION = 1.9;
-
-// h-14 = 56px (se você mudar a altura do header, atualize aqui)
-const HEADER_H = 56;
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 const links = [
-  { href: "#sobre", label: "Sobre", n: "01." },
-  { href: "#experiencia", label: "Experiência", n: "02." },
-  { href: "#projetos", label: "Projetos", n: "03." },
+  { href: "/#sobre", label: "Sobre" },
+  { href: "/#habilidades", label: "Habilidades" },
+  { href: "/#experiencia", label: "Experiência" },
+  { href: "/#projetos", label: "Projetos" },
+  { href: "/#contato", label: "Contato" },
 ];
-
-function SplashSMark() {
-  const corners = [
-    "M18 10 H10 V26",
-    "M82 10 H90 V26",
-    "M18 90 H10 V74",
-    "M82 90 H90 V74",
-  ];
-
-  return (
-    <svg
-      viewBox="0 0 100 100"
-      className="h-24 w-24 sm:h-28 sm:w-28 text-accent"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      {corners.map((d, i) => (
-        <motion.path
-          key={d}
-          d={d}
-          stroke="currentColor"
-          strokeWidth="4.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          initial={{ pathLength: 0, opacity: 1 }}
-          animate={{ pathLength: 1, opacity: 1 }}
-          transition={{ duration: 2, ease: "easeInOut", delay: i * 0.25 }}
-        />
-      ))}
-
-      <motion.text
-        x="50"
-        y="54"
-        textAnchor="middle"
-        dominantBaseline="middle"
-        fill="currentColor"
-        style={{
-          fontSize: 60,
-          fontWeight: 600,
-          letterSpacing: 1,
-          fontFamily:
-            "ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial",
-        }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, ease: "easeInOut", delay: 2.0 }}
-      >
-        s
-      </motion.text>
-    </svg>
-  );
-}
 
 export default function Header() {
   const [open, setOpen] = useState(false);
-  const [splash, setSplash] = useState(true);
+  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+  // On the cover of the home page the header floats over the torn paper.
+  const overCover = pathname === "/" && !scrolled;
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // começa no topo ao carregar (window + container, se existir)
-    if (typeof window !== "undefined") {
-      const container = document.querySelector<HTMLElement>("[data-scroll-container]");
-      if (container) container.scrollTo({ top: 0 });
-      window.scrollTo(0, 0);
-    }
-
-    const timer = setTimeout(() => setSplash(false), SPLASH_DURATION_MS);
-    return () => clearTimeout(timer);
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  function getBestScrollAncestor(el: HTMLElement) {
-    // 1) Se existir um container marcado e ele contiver a seção, use ele.
-    const marked = document.querySelector<HTMLElement>("[data-scroll-container]");
-    if (
-      marked &&
-      marked.contains(el) &&
-      marked.scrollHeight - marked.clientHeight > 8
-    ) {
-      return marked;
-    }
+  useEffect(() => {
+    if (!open) return;
 
-    // 2) Caso contrário, pega o ancestral rolável com MAIOR range de scroll.
-    let best: HTMLElement | null = null;
-    let bestRange = 0;
+    const previousOverflow = document.body.style.overflow;
+    const menuButton = menuButtonRef.current;
+    document.body.style.overflow = "hidden";
+    closeButtonRef.current?.focus();
 
-    for (let p = el.parentElement; p; p = p.parentElement) {
-      const s = window.getComputedStyle(p);
-      const oy = s.overflowY;
-      const o = s.overflow;
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setOpen(false);
+        return;
+      }
 
-      const canScrollY =
-        (oy === "auto" ||
-          oy === "scroll" ||
-          oy === "overlay" ||
-          o === "auto" ||
-          o === "scroll") &&
-        p.scrollHeight - p.clientHeight > 8;
+      if (event.key !== "Tab" || !dialogRef.current) return;
+      const focusable = Array.from(
+        dialogRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      );
+      if (!focusable.length) return;
 
-      if (canScrollY) {
-        const range = p.scrollHeight - p.clientHeight;
-        if (range > bestRange) {
-          best = p;
-          bestRange = range;
-        }
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
       }
     }
 
-    return best;
-  }
-
-  function scrollToTarget(el: HTMLElement, href?: string, updateHash = true) {
-    const container = getBestScrollAncestor(el);
-
-    if (container) {
-      const top =
-        el.getBoundingClientRect().top -
-        container.getBoundingClientRect().top +
-        container.scrollTop -
-        HEADER_H;
-
-      container.scrollTo({ top, behavior: "smooth" });
-    } else {
-      const top = el.getBoundingClientRect().top + window.scrollY - HEADER_H;
-      window.scrollTo({ top, behavior: "smooth" });
-    }
-
-    if (updateHash && href) {
-      window.history.replaceState(null, "", href);
-    }
-  }
-
-  function scrollToTop() {
-    if (typeof window === "undefined") return;
-
-    const topo = document.getElementById("topo");
-    if (topo) {
-      scrollToTarget(topo, "#topo", false);
-      return;
-    }
-
-    const container = document.querySelector<HTMLElement>("[data-scroll-container]");
-    if (container) {
-      container.scrollTo({ top: 0, behavior: "smooth" });
-      return;
-    }
-
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-
-  function handleLogoClick(e: ReactMouseEvent<HTMLButtonElement>) {
-    e.preventDefault();
-    setSplash(true);
-
-    setTimeout(() => {
-      scrollToTop();
-      setSplash(false);
-    }, SPLASH_DURATION_MS);
-  }
-
-  // ✅ Scroll universal (PC e mobile, window ou container)
-  function handleNavClick(
-    e: ReactMouseEvent<HTMLAnchorElement>,
-    href: string,
-    closeMenu?: boolean
-  ) {
-    if (typeof window === "undefined") return;
-    if (!href.startsWith("#")) return;
-
-    // IMPORTANTÍSSIMO: sempre prevenir o padrão do hash
-    e.preventDefault();
-
-    const id = href.slice(1);
-    const el = document.getElementById(id);
-
-    // Se não existir o id na página, ao menos atualiza o hash sem mexer a tela
-    if (!el) {
-      window.history.replaceState(null, "", href);
-      if (closeMenu) setOpen(false);
-      return;
-    }
-
-    if (closeMenu) {
-      setOpen(false);
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => scrollToTarget(el, href, true));
-      });
-      return;
-    }
-
-    scrollToTarget(el, href, true);
-  }
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", onKeyDown);
+      menuButton?.focus();
+    };
+  }, [open]);
 
   return (
-    <>
-      {/* HEADER fixo */}
-      <header className="fixed top-0 inset-x-0 z-40 bg-bg/80 backdrop-blur md:border-b md:border-white/5">
-        <div className="mx-auto flex h-14 items-center justify-between px-4 sm:px-8 lg:px-16 xl:px-24 w-full">
-          {/* ESQUERDA – ícone */}
-          <button
-            type="button"
-            onClick={handleLogoClick}
-            className="group inline-flex items-center"
-            aria-label="Ir para o topo com animação"
-          >
-            <Image
-              src="/avatar-logo-isaac.png"
-              alt="Logo Isaac"
-              width={40}
-              height={40}
-              className="h-9 w-9 md:h-10 md:w-10 rounded-full object-cover"
-              priority
-            />
-          </button>
+    <header
+      className={`site-header fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color] duration-300 ${
+        overCover ? "border-transparent bg-transparent" : "border-white/[0.06] bg-bg/85 backdrop-blur-xl"
+      }`}
+    >
+      <div className="flex h-20 w-full items-center justify-between px-5 sm:px-8 lg:px-[4.6%]">
+        <Link
+          href="/#topo"
+          className={`inline-flex min-h-11 items-center gap-3 rounded-full pr-2 text-sm font-semibold tracking-tight text-text transition-opacity duration-300 ${
+            overCover ? "pointer-events-none opacity-0" : "opacity-100"
+          }`}
+          aria-label="Voltar ao início"
+          aria-hidden={overCover}
+          tabIndex={overCover ? -1 : undefined}
+        >
+          <Image
+            src="/avatar-logo-isaac.png"
+            alt=""
+            width={40}
+            height={40}
+            className="h-10 w-10 rounded-full border border-white/10 object-cover"
+            priority
+          />
+          <span className="hidden sm:inline">Isaac Santt</span>
+        </Link>
 
-          {/* DIREITA */}
-          <div className="flex items-center gap-4 sm:gap-6">
-            <nav className="hidden md:flex items-center gap-8">
-              {links.map((l) => (
-                <a
-                  key={l.href}
-                  href={l.href}
-                  onClick={(e) => handleNavClick(e, l.href)}
-                  className="group inline-flex items-center gap-2 text-xs font-mono text-muted hover:text-text transition"
-                >
-                  <span className="text-accent">{l.n}</span>
-                  <span>{l.label}</span>
-                </a>
+        <div className="hidden items-center gap-7 lg:flex">
+          <nav aria-label="Navegação principal">
+            <ul className="flex items-center gap-6">
+              {links.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="rounded-sm py-3 text-[11px] font-medium uppercase tracking-[0.22em] text-text/75 transition-colors hover:text-text"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
               ))}
+            </ul>
+          </nav>
+          <Link
+            href="/curriculo"
+            className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/25 px-5 text-xs font-semibold text-text transition-colors hover:border-white/60 hover:bg-white/[0.06]"
+          >
+            Solicitar currículo
+          </Link>
+        </div>
+
+        <button
+          ref={menuButtonRef}
+          type="button"
+          className="inline-flex min-h-11 items-center px-1 text-[11px] font-medium uppercase tracking-[0.26em] text-text/85 transition-colors hover:text-text lg:hidden"
+          aria-label="Abrir menu"
+          aria-expanded={open}
+          aria-controls="menu-mobile"
+          onClick={() => setOpen(true)}
+        >
+          Menu
+        </button>
+      </div>
+
+      {open && (
+        <div
+          id="menu-mobile"
+          ref={dialogRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menu de navegação"
+          className="fixed inset-0 z-50 min-h-dvh bg-bg px-5 py-5 lg:hidden"
+        >
+          <div className="mx-auto flex h-full max-w-2xl flex-col">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-semibold">Navegação</span>
+              <button
+                ref={closeButtonRef}
+                type="button"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 text-text"
+                aria-label="Fechar menu"
+                onClick={() => setOpen(false)}
+              >
+                <X aria-hidden="true" className="h-5 w-5" />
+              </button>
+            </div>
+
+            <nav className="flex flex-1 items-center" aria-label="Navegação mobile">
+              <ul className="w-full">
+                {links.map((link, index) => (
+                  <li key={link.href} className="border-b border-white/[0.07]">
+                    <Link
+                      href={link.href}
+                      onClick={() => setOpen(false)}
+                      className="flex min-h-16 items-center gap-4 text-lg text-text"
+                    >
+                      <span className="text-[10px] font-semibold tracking-[0.2em] text-accent">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </nav>
 
-            <div className="hidden sm:block">
-              <a
-                href="#curriculo"
-                onClick={(e) => handleNavClick(e, "#curriculo")}
-                className="inline-flex items-center rounded-full border border-accent px-8 py-2 text-xs font-medium text-accent"
-              >
-                Resumo
-              </a>
-            </div>
-
-            <button
-              type="button"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-muted md:hidden"
-              aria-label="Abrir navegação"
-              onClick={() => setOpen(true)}
+            <Link
+              href="/curriculo"
+              onClick={() => setOpen(false)}
+              className="inline-flex min-h-12 items-center justify-center rounded-full bg-text px-6 text-sm font-semibold text-wine"
             >
-              <span className="sr-only">Abrir navegação</span>
-              <span className="relative block h-4 w-4">
-                <span className="absolute inset-x-0 top-0 h-[1px] bg-white" />
-                <span className="absolute inset-x-0 top-1/2 h-[1px] bg-white" />
-                <span className="absolute inset-x-0 bottom-0 h-[1px] bg-white" />
-              </span>
-            </button>
+              Solicitar currículo
+            </Link>
           </div>
         </div>
-      </header>
-
-      {/* MENU MOBILE */}
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0, y: -24 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -24 }}
-            transition={{ duration: 0.35, ease: "easeOut" }}
-            className="fixed inset-0 z-50 bg-bg/95 backdrop-blur md:hidden"
-          >
-            <div className="flex h-full flex-col">
-              <div className="flex items-center justify-between px-4 pt-4">
-                <button
-                  type="button"
-                  onClick={handleLogoClick}
-                  className="inline-flex items-center"
-                  aria-label="Ir para o topo com animação"
-                >
-                  <Image
-                    src="/avatar-logo-isaac.png"
-                    alt="Logo Isaac"
-                    width={32}
-                    height={32}
-                    className="h-8 w-8 rounded-full object-cover"
-                  />
-                </button>
-
-                <button
-                  type="button"
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-muted"
-                  aria-label="Fechar navegação"
-                  onClick={() => setOpen(false)}
-                >
-                  <span className="sr-only">Fechar navegação</span>
-                  <span className="relative block h-4 w-4">
-                    <span className="absolute inset-x-0 top-1/2 h-[1px] bg-white rotate-45" />
-                    <span className="absolute inset-x-0 top-1/2 h-[1px] bg-white -rotate-45" />
-                  </span>
-                </button>
-              </div>
-
-              <div className="flex flex-1 flex-col items-center justify-center gap-6 text-center">
-                {links.map((l, index) => (
-                  <motion.a
-                    key={l.href}
-                    href={l.href}
-                    onClick={(e) => handleNavClick(e, l.href, true)}
-                    className="text-base text-muted hover:text-text transition"
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: 0.15 + index * 0.05 }}
-                  >
-                    <span className="block text-xs text-accent mb-1">
-                      {`0${index + 1}.`}
-                    </span>
-                    <span>{l.label}</span>
-                  </motion.a>
-                ))}
-
-                <motion.a
-                  href="/cv-isaac-santana-muniz.pdf"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-6 inline-flex items-center rounded-full border border-accent px-10 py-2 text-xs font-medium text-accent"
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.3,
-                    delay: 0.2 + links.length * 0.05,
-                  }}
-                >
-                  Resumo
-                </motion.a>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* SPLASH */}
-      <AnimatePresence>
-        {splash && (
-          <motion.div
-            className="fixed inset-0 z-[60] flex items-center justify-center bg-bg"
-            initial={{ opacity: 1 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-          >
-            <motion.div
-              className="flex items-center justify-center"
-              initial={{ scale: 0.7, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 1.1, opacity: 0 }}
-              transition={{ duration: SPLASH_ANIM_DURATION, ease: "easeInOut" }}
-            >
-              <SplashSMark />
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+      )}
+    </header>
   );
 }

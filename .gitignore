@@ -11,6 +11,15 @@ build/
 
 # env / logs / editor
 .env*
+!.env.example
+*.pdf
+private-documents/
 *.log
 .vscode/
 .DS_Store
+
+# brainstorm mockups
+.superpowers/
+
+# typescript incremental cache
+*.tsbuildinfo

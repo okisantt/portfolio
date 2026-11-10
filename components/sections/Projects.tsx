@@ -1,19 +1,19 @@
-"use client";
-
-import Container from "@/components/ui/Container";
+import SectionHeading from "@/components/ui/SectionHeading";
+import EpiSentinelShots from "./EpiSentinelShots";
 import FeaturedProject from "./FeaturedProject";
-import EpiSentinelShots from "@/components/sections/EpiSentinelShots";
 
 export default function Projects() {
   return (
-    <section
-      id="projetos"
-      className="py-section-y pb-24 md:pb-32 scroll-mt-20 md:mt-[18vh]"
-    >
-      <Container>
+    <section id="projetos" className="py-section-y">
+      <SectionHeading
+        number="04"
+        title="Projetos"
+        description="Projetos em que organização, clareza e confiabilidade importam tanto quanto a tecnologia."
+      />
+      <div className="space-y-6 sm:space-y-8">
         <FeaturedProject />
         <EpiSentinelShots />
-      </Container>
+      </div>
     </section>
   );
 }

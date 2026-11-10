@@ -1,102 +1,112 @@
-"use client";
+import Image from "next/image";
+import Link from "next/link";
+import { FileText, Github, Linkedin } from "lucide-react";
+import HeroClock from "@/components/hero/HeroClock";
+import { SITE } from "@/lib/data";
+import { tornEdge } from "@/lib/torn";
 
-import Container from "@/components/ui/Container";
-import FadeIn from "@/components/motion/FadeIn";
-import { motion } from "framer-motion";
-import { Github, Linkedin, Mail } from "lucide-react";
+// Where the tear runs, as [y%, x%]. Wide screens get a tear that swings from
+// 61% to 47% and back; portrait screens split the screen roughly in half.
+const WIDE = [[0, 61], [10, 58], [24, 52], [38, 47.5], [52, 49], [64, 54], [78, 58], [90, 61], [100, 64]] as const;
+const TALL = [[0, 54], [12, 50], [28, 45], [45, 43], [60, 44], [75, 47], [90, 51], [100, 53]] as const;
+
+const tearStyles = `
+.hero{--tear-sheet:${tornEdge({ points: WIDE, offset: 1.9, amp: 2, seed: 21 })};--tear-shadow:${tornEdge({ points: WIDE, offset: 3.6, amp: 2.25, seed: 7 })}}
+@media (max-width:767px),(max-aspect-ratio:1/1){.hero{--tear-sheet:${tornEdge({ points: TALL, offset: 2, amp: 2.6, seed: 21 })};--tear-shadow:${tornEdge({ points: TALL, offset: 3.8, amp: 2.8, seed: 7 })}}}
+`;
+
+const delay = (seconds: number) => ({ "--d": `${seconds}s` }) as React.CSSProperties;
+
+const socials = [
+  { href: SITE.github, label: "GitHub de Isaac (abre em nova aba)", Icon: Github, external: true },
+  { href: SITE.linkedin, label: "LinkedIn de Isaac (abre em nova aba)", Icon: Linkedin, external: true },
+  { href: "/curriculo", label: "Solicitar currículo", Icon: FileText, external: false },
+] as const;
 
 export default function Hero() {
   return (
-    <section
-      id="topo"
-      className="pt-24 pb-20 md:pt-28 md:pb-0 min-h-[calc(100vh-3.5rem)] md:min-h-0 flex items-center md:items-start"
-    >
-      <Container>
-        <motion.div
-          className="max-w-xl"
-          initial={{ opacity: 0, y: -32 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: "easeOut" }}
+    <section id="topo" className="hero" aria-label="Apresentação">
+      <style dangerouslySetInnerHTML={{ __html: tearStyles }} />
+
+      <div className="hero-stage">
+        <Image
+          src="/isaac-portrait.jpg"
+          alt="Retrato em preto e branco de Isaac Santana Muniz"
+          width={864}
+          height={878}
+          priority
+          sizes="(max-width: 767px) 115vw, (max-aspect-ratio: 1/1) 115vw, 62vw"
+          className="hero-photo"
+        />
+
+        <div className="hero-paper" aria-hidden="true">
+          <div className="hero-shadow" />
+          <div className="hero-sheet" />
+        </div>
+
+        <p className="hero-c hero-hi" style={delay(0.75)}>
+          Olá
+        </p>
+        <a
+          href="#sobre"
+          className="hero-c hero-arrow"
+          style={delay(0.9)}
+          aria-label="Ir para a seção Sobre"
         >
-          <FadeIn>
-            <p className="text-sm md:text-xs font-mono text-accent mb-1">
-              Hi, my name is
-            </p>
-          </FadeIn>
+          ↓
+        </a>
+        <HeroClock />
 
-          <FadeIn delay={0.08}>
-            <div className="space-y-0.5">
-              <h1 className="text-[2.5rem] md:text-[2.9rem] font-semibold leading-tight tracking-tightish text-balance">
-                Isaac Santt.
-              </h1>
-              <p className="text-lg md:text-[1.6rem] font-medium text-text/75">
-                I build things for the web.
-              </p>
-            </div>
-          </FadeIn>
+        <h1 className="hero-c hero-vert" style={delay(1.1)}>
+          <span className="hero-v-main">
+            <span className="hero-v-pre" aria-hidden="true">
+              2026 —{" "}
+            </span>
+            {SITE.shortName}.
+          </span>
+          <span className="hero-v-sub">Back-end · Automação · Segurança</span>
+        </h1>
 
-          <FadeIn delay={0.18}>
-            <div className="mt-8 space-y-3 text-[0.95rem] md:text-sm text-muted leading-relaxed">
-              <p className="text-[0.8rem] tracking-[0.35em] text-muted/70">
-                PERFIL
-              </p>
-              <p>
-                Estudante de Engenharia de Software com foco em back-end.
-                Atuando em banco de dados, deploy, correção de bugs e automação
-                de sistemas.
-              </p>
+        <div className="hero-c hero-copy" style={delay(1.2)}>
+          <p className="hero-eyebrow">Engenharia de software</p>
+          <p className="hero-statement">
+            Transformo regras, dados e processos em software confiável.
+          </p>
+          <p className="hero-para">
+            Foco em back-end, banco de dados, automação e segurança. Gosto de
+            entender o problema antes de escrever a primeira linha de código.
+          </p>
+          <div className="hero-ctas">
+            <Link href="/#projetos" className="hero-btn hero-btn-solid">
+              Ver projetos
+            </Link>
+            <Link href="/curriculo" className="hero-btn hero-btn-ghost">
+              Solicitar currículo
+            </Link>
+          </div>
+        </div>
 
-              {/* ÍCONES — SOMENTE MOBILE (centralizados, sem texto) */}
-              <div className="pt-8 w-full md:hidden">
-                <div className="flex items-center gap-4">
-                  <a
-                    href="https://github.com/okisantt"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Abrir GitHub"
-                    className="
-                      group inline-flex h-11 w-11 items-center justify-center rounded-full
-                      border border-white/10 text-muted transition
-                      hover:text-text hover:border-white/20 hover:bg-white/5
-                      active:scale-95
-                    "
-                  >
-                    <Github className="h-5 w-5" />
-                  </a>
+        <ul className="hero-c hero-icons" style={delay(1.35)}>
+          {socials.map(({ href, label, Icon, external }) => (
+            <li key={href}>
+              {external ? (
+                <a href={href} target="_blank" rel="noopener noreferrer" aria-label={label}>
+                  <Icon aria-hidden="true" />
+                </a>
+              ) : (
+                <Link href={href} aria-label={label}>
+                  <Icon aria-hidden="true" />
+                </Link>
+              )}
+            </li>
+          ))}
+        </ul>
 
-                  <a
-                    href="https://www.linkedin.com/in/SEU-USUARIO/"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Abrir LinkedIn"
-                    className="
-                      group inline-flex h-11 w-11 items-center justify-center rounded-full
-                      border border-white/10 text-muted transition
-                      hover:text-text hover:border-white/20 hover:bg-white/5
-                      active:scale-95
-                    "
-                  >
-                    <Linkedin className="h-5 w-5" />
-                  </a>
-
-                  <a
-                    href="mailto:SEUEMAIL@DOMINIO.COM"
-                    aria-label="Enviar e-mail"
-                    className="
-                      group inline-flex h-11 w-11 items-center justify-center rounded-full
-                      border border-white/10 text-muted transition
-                      hover:text-text hover:border-white/20 hover:bg-white/5
-                      active:scale-95
-                    "
-                  >
-                    <Mail className="h-5 w-5" />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </FadeIn>
-        </motion.div>
-      </Container>
+        <p className="hero-c hero-sig" style={delay(1.5)}>
+          <b>{SITE.name}</b>
+          <span>desenvolvedor back-end em formação</span>
+        </p>
+      </div>
     </section>
   );
 }

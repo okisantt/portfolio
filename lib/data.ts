@@ -1,93 +1,64 @@
-export type Project = {
-  id: string;
-  title: string;
-  summary: string;
-  category: "Web" | "Automação" | "Data" | "Design";
-  tags: string[];
-  href?: string;
-  highlight?: boolean;
-};
+export const SITE = {
+  name: "Isaac Santana Muniz",
+  shortName: "Isaac Santt",
+  role: "Desenvolvedor back-end em formação",
+  description:
+    "Portfólio de Isaac Santana Muniz, estudante de Engenharia de Software com foco em back-end, automação e segurança.",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://santt.dev",
+  github: "https://github.com/okisantt",
+  linkedin: "https://www.linkedin.com/in/isaac-santt-560227379/",
+} as const;
 
-export const CATEGORIES: Array<Project["category"] | "Todos"> = [
-  "Todos",
-  "Web",
-  "Automação",
-  "Data",
-  "Design"
-];
+export const SKILL_GROUPS = [
+  {
+    title: "Back-end",
+    description: "APIs, regras de negócio e serviços preparados para evoluir.",
+    items: ["Node.js", "Python", "APIs REST", "Banco de dados"],
+  },
+  {
+    title: "Front-end",
+    description: "Interfaces responsivas para dar forma e clareza aos produtos.",
+    items: ["React", "Next.js", "TypeScript", "Tailwind CSS"],
+  },
+  {
+    title: "Operação & dados",
+    description: "Automação e visibilidade para reduzir trabalho manual e falhas.",
+    items: ["VBA", "Power BI", "Excel", "Deploy"],
+  },
+] as const;
 
-export const PROJECTS: Project[] = [
+export const EXPERIENCES = [
   {
-    id: "atlas",
-    title: "Atlas UI",
-    summary:
-      "Sistema de componentes com tokens sólidos, foco em consistência e performance real.",
-    category: "Web",
-    tags: ["Design System", "Next.js", "A11y"],
-    highlight: true
+    company: "G4S Vanguarda",
+    href: "https://www.g4s.com/pt-br",
+    role: "Vigilante Patrimonial",
+    period: "Jan 2024 — presente",
+    description:
+      "Atuação em ambiente industrial com controle de acesso, CFTV, rondas preventivas e resposta a ocorrências. Também elaboro relatórios operacionais em Excel, Word e Power BI, conectando rotina, análise e melhoria de processo.",
   },
   {
-    id: "northstar",
-    title: "Northstar CRM Lite",
-    summary:
-      "CRM enxuto para negócios locais com automações inteligentes e onboarding rápido.",
-    category: "Automação",
-    tags: ["Automations", "UX", "SaaS"]
+    company: "AATEC",
+    href: "https://www.aatec.com.br/",
+    role: "Parceiro Administrativo",
+    period: "Set 2024 — dez 2024",
+    description:
+      "Apoio administrativo e participação em discussões e workshops sobre tecnologia, ampliando repertório técnico e relacionamento com profissionais da área.",
   },
   {
-    id: "argon",
-    title: "Argon Dashboard",
-    summary:
-      "Painéis objetivos com narrativa visual limpa e métricas acionáveis.",
-    category: "Data",
-    tags: ["BI", "Storytelling", "Produto"]
+    company: "Madil Carreiras",
+    href: "https://www.linkedin.com/company/lumiicarreiras/",
+    role: "Moderador",
+    period: "Mai 2024 — nov 2024",
+    description:
+      "Organização e moderação de uma comunidade voltada ao mercado de trabalho e à tecnologia, promovendo troca de conhecimento e suporte aos membros.",
   },
-  {
-    id: "mono",
-    title: "Mono Posters",
-    summary:
-      "Exploração de tipografia e composição minimalista com regras estritas de contraste.",
-    category: "Design",
-    tags: ["Typography", "Grid", "Brand"]
-  }
-];
+] as const;
 
-export const SKILLS = [
-  {
-    group: "Front-end",
-    note: "Construção de interfaces escaláveis e precisas.",
-    items: ["React", "Next.js", "TypeScript", "Tailwind", "Framer Motion"]
-  },
-  {
-    group: "Produto",
-    note: "Decisões guiadas por clareza, conversão e retenção.",
-    items: ["UX Writing", "Design Systems", "Acessibilidade", "Pesquisa leve"]
-  },
-  {
-    group: "Automação / Dados",
-    note: "Fluxos simples que viram vantagem competitiva.",
-    items: ["APIs", "Dashboards", "ETL leve", "Integrações"]
-  }
-];
-
-export const TIMELINE = [
-  {
-    period: "2024 — Hoje",
-    title: "Estudante de Engenharia de Software",
-    detail:
-      "Evolução intensa em front-end moderno, arquitetura de componentes e experiências mobile."
-  },
-  {
-    period: "2021 — 2024",
-    title: "Experiências operacionais e disciplina de execução",
-    detail:
-      "Rotina intensa, responsabilidade e visão prática de risco, processo e consistência."
-  }
-];
-
-export const SOCIALS = [
-  { label: "GitHub", href: "https://github.com/isaacsantt" },
-  { label: "LinkedIn", href: "https://linkedin.com" },
-  { label: "Instagram", href: "https://instagram.com" },
-  { label: "Email", href: "mailto:seuemail@dominio.com" }
-];
+export const TECHNOLOGIES = [
+  "JavaScript",
+  "React",
+  "Node.js",
+  "C++",
+  "VBA",
+  "Python",
+] as const;

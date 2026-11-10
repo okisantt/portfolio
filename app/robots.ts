@@ -1,12 +1,11 @@
 import type { MetadataRoute } from "next";
+import { SITE } from "@/lib/data";
 
 export default function robots(): MetadataRoute.Robots {
-  const base = "https://seu-dominio.com"; // troque
   return {
-    rules: {
-      userAgent: "*",
-      allow: "/"
-    },
-    sitemap: `${base}/sitemap.xml`
+    rules: [
+      { userAgent: "*", allow: "/", disallow: ["/admin/", "/api/", "/curriculo/acesso"] },
+    ],
+    sitemap: `${SITE.url}/sitemap.xml`,
   };
 }

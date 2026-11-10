@@ -1,60 +1,62 @@
-import type { Metadata } from "next";
-import { Space_Grotesk, Sora } from "next/font/google";
-import "./globals.css";
+import type { Metadata, Viewport } from "next";
+import { Montserrat } from "next/font/google";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { SITE } from "@/lib/data";
+import "./globals.css";
 
-const display = Space_Grotesk({
+const montserrat = Montserrat({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
   variable: "--font-display",
   display: "swap",
 });
 
-const heroSora = Sora({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-hero",
-  display: "swap",
-});
-
-const SITE_NAME = "Isaac Santana Muniz";
-const SITE_DESC = "Portfólio.";
-const SITE_URL = "https://santt.dev"; // troque
+// Runs before the first paint: decides whether the opening sequence plays, so
+// the home page never flashes its final state first. Plays once per session,
+// only on the home page, and never for people who asked for reduced motion.
+const introBootstrap = `(function(){try{var d=document.documentElement;if(location.pathname==="/"&&!location.hash&&!sessionStorage.getItem("intro")&&!matchMedia("(prefers-reduced-motion: reduce)").matches){sessionStorage.setItem("intro","1");d.dataset.intro="play";setTimeout(function(){if(d.dataset.intro==="play")delete d.dataset.intro},9000)}}catch(e){}})()`;
 
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
+  metadataBase: new URL(SITE.url),
   title: {
-    default: `${SITE_NAME} — Portfólio`,
-    template: `%s — ${SITE_NAME}`,
+    default: `${SITE.name} — ${SITE.role}`,
+    template: `%s — ${SITE.shortName}`,
   },
-  description: SITE_DESC,
-
-  // ✅ Favicon usando o seu "S"
+  description: SITE.description,
+  applicationName: `${SITE.shortName} — Portfólio`,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    url: "/",
+    siteName: `${SITE.shortName} — Portfólio`,
+    title: `${SITE.name} — ${SITE.role}`,
+    description: SITE.description,
+  },
   icons: {
-    icon: [{ url: "/avatar-logo-isaac.png", type: "image/png" }],
-    shortcut: [{ url: "/avatar-logo-isaac.png", type: "image/png" }],
+    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
     apple: [{ url: "/avatar-logo-isaac.png", type: "image/png" }],
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <html
-      lang="pt-BR"
-      className={`is-splashing ${display.variable} ${heroSora.variable}`}
-    >
-      <body>
-        <Header />
+export const viewport: Viewport = {
+  colorScheme: "dark",
+  themeColor: "#080607",
+  width: "device-width",
+  initialScale: 1,
+};
 
-        <main className="page-shell">
-          {children}
-          <Footer />
-        </main>
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="pt-BR" className={montserrat.variable} suppressHydrationWarning>
+      <body>
+        <script dangerouslySetInnerHTML={{ __html: introBootstrap }} />
+        <a className="skip-link" href="#conteudo">
+          Pular para o conteúdo
+        </a>
+        <Header />
+        {children}
+        <Footer />
       </body>
     </html>
   );
