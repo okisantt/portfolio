@@ -108,9 +108,10 @@ export default function Header() {
                         href={item.href}
                         word={item.word}
                         aria-current={current ? "page" : undefined}
-                        className={`rounded-sm py-3 text-[11px] font-medium uppercase tracking-[0.2em] transition-colors hover:text-text ${
-                          current ? "text-text" : "text-text/60"
-                        }`}
+                        aria-label={item.symbol ? item.name : undefined}
+                        className={`rounded-sm py-3 font-medium uppercase transition-colors hover:text-text ${
+                          item.symbol ? "text-xl leading-none" : "text-[11px] tracking-[0.2em]"
+                        } ${current ? "text-text" : "text-text/60"}`}
                       >
                         {item.short}
                       </TransitionLink>
@@ -168,12 +169,13 @@ export default function Header() {
 
             <nav className="flex flex-1 items-center" aria-label="Navegação mobile">
               <ul className="w-full">
-                {[{ href: "/", label: "Início", word: "Início" }, ...NAV].map((item, index) => (
+                {[{ href: "/", label: "Início", word: "Início", name: "Início" }, ...NAV].map((item, index) => (
                   <li key={item.href} className="border-b border-white/[0.07]">
                     <TransitionLink
                       href={item.href}
                       word={item.word}
                       onNavigate={() => setOpen(false)}
+                      aria-label={item.name}
                       className="flex min-h-16 items-center gap-4 text-lg font-light text-text"
                     >
                       <span className="text-[10px] font-semibold tracking-[0.2em] text-accent">

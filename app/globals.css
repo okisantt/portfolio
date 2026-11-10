@@ -702,12 +702,16 @@ html[data-intro="reveal"] .menu {
   outline-offset: -4px;
 }
 
-.menu-meta {
-  display: flex;
-  align-items: center;
-  color: rgb(var(--muted));
-  font-size: 0.6rem;
-  letter-spacing: 0.24em;
+/* The last destination is a symbol, not a word. */
+.menu-item[data-symbol="true"] {
+  min-width: 3rem;
+}
+
+.menu-item[data-symbol="true"] .menu-label {
+  font-size: 1.6rem;
+  font-weight: 300;
+  line-height: 0.6;
+  letter-spacing: 0;
 }
 
 @media (max-width: 767px), (max-aspect-ratio: 1/1) {
@@ -716,8 +720,7 @@ html[data-intro="reveal"] .menu {
     border-top: 0;
   }
 
-  .menu-band,
-  .menu-meta {
+  .menu-band {
     display: none;
   }
 
@@ -1488,6 +1491,423 @@ html[data-transit="cover"] .rise {
 @media (max-width: 767px) {
   .pd-gallery {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Hobbies opens with artwork: the band fills the screen as usual, then the
+   picture comes up behind it and the camera drifts from the window to her. */
+
+.transit-art {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.transit-art img {
+  object-fit: cover;
+  object-position: 58% 40%;
+}
+
+.transit-art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, rgb(8 6 7 / 0.92) 0, rgb(8 6 7 / 0.3) 40%, transparent 68%),
+    radial-gradient(120% 95% at 50% 42%, transparent 52%, rgb(8 6 7 / 0.62));
+}
+
+.transit-word,
+.transit-count {
+  position: relative;
+}
+
+.transit-count strong {
+  display: none;
+}
+
+.transit[data-scene="hobbies"][data-phase="cover"] .transit-art {
+  animation: scene-in 1.2s ease 0.75s both;
+}
+
+.transit[data-scene="hobbies"][data-phase="cover"] .transit-art img {
+  animation: scene-move 4.6s cubic-bezier(0.33, 0, 0.2, 1) 0.5s both;
+}
+
+.transit[data-scene="hobbies"][data-phase="reveal"] .transit-art {
+  opacity: 1;
+}
+
+@keyframes scene-in {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scene-move {
+  from {
+    transform: scale(1.34) translateX(10%);
+  }
+  to {
+    transform: scale(1.06);
+  }
+}
+
+.transit[data-scene="hobbies"][data-phase="cover"] .transit-word {
+  animation:
+    transit-word 0.8s cubic-bezier(0.76, 0, 0.24, 1) both,
+    scene-word-out 0.7s ease 0.95s forwards;
+}
+
+@keyframes scene-word-out {
+  to {
+    opacity: 0;
+    transform: translateY(-1rem);
+  }
+}
+
+.transit[data-scene="hobbies"][data-phase="reveal"] .transit-word {
+  opacity: 0;
+  animation: none;
+}
+
+.transit[data-scene="hobbies"] .transit-count {
+  position: absolute;
+  bottom: max(1.5rem, 6%);
+  left: max(1.25rem, 4.6%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.9rem;
+  opacity: 1;
+}
+
+.transit[data-scene="hobbies"] .transit-count strong {
+  display: block;
+  font-size: clamp(2.2rem, 5.6vw, 5.2rem);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-transform: none;
+}
+
+.transit[data-scene="hobbies"][data-phase="cover"] .transit-count {
+  animation: rise 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 1.6s both;
+}
+
+/* ───────────────────────── Hobbies ─────────────────────────
+   One small character alone on the stage. Pressed, it tosses the hobbies
+   into the air, where they drift until it gathers them back. */
+
+.hob {
+  position: relative;
+  height: 100svh;
+  min-height: 34rem;
+  overflow: hidden;
+  background: radial-gradient(46% 42% at 50% 54%, rgb(var(--accent) / 0.07), transparent 70%);
+}
+
+.hob-field {
+  position: absolute;
+  inset: 5rem 0 0;
+  container-type: size;
+}
+
+.hob-words {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hob-word {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  scale: 0.2;
+  translate: -50% -50%;
+  transition:
+    translate 0.9s cubic-bezier(0.3, 1.35, 0.4, 1),
+    scale 0.9s cubic-bezier(0.3, 1.35, 0.4, 1),
+    opacity 0.45s ease;
+  transition-delay: calc((7 - var(--i)) * 45ms);
+}
+
+.hob-field[data-open="true"] .hob-word {
+  opacity: 1;
+  pointer-events: auto;
+  scale: 1;
+  translate: calc(-50% + var(--x) * 1cqw) calc(-50% + var(--y) * 1cqh);
+  transition-delay: calc(var(--i) * 95ms + 120ms);
+}
+
+.hob-word[data-active="true"] {
+  z-index: 4;
+}
+
+.hob-drift {
+  position: relative;
+  animation: hob-drift var(--dur) ease-in-out calc(var(--i) * -1.3s) infinite;
+}
+
+.hob-word[data-active="true"] .hob-drift {
+  animation-play-state: paused;
+}
+
+@keyframes hob-drift {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  25% {
+    translate: 0.5rem -0.7rem;
+  }
+  50% {
+    translate: -0.35rem -0.25rem;
+  }
+  75% {
+    translate: -0.6rem 0.55rem;
+  }
+}
+
+.hob-chip {
+  display: block;
+  border: 0;
+  background: none;
+  padding: 0.5rem 0.7rem;
+  color: rgb(var(--text) / 0.86);
+  font-size: clamp(1.05rem, 1.9cqw, 1.9rem);
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.25s ease;
+}
+
+.hob-chip::after {
+  content: "";
+  display: block;
+  height: 1px;
+  margin-top: 0.3rem;
+  background: rgb(var(--accent));
+  scale: 0 1;
+  transform-origin: left;
+  transition: scale 0.35s ease;
+}
+
+.hob-word[data-active="true"] .hob-chip {
+  color: #fff;
+}
+
+.hob-word[data-active="true"] .hob-chip::after {
+  scale: 1 1;
+}
+
+.hob-card {
+  position: absolute;
+  top: calc(100% + 0.15rem);
+  left: 50%;
+  width: max-content;
+  max-width: 14rem;
+  margin: 0;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid rgb(255 255 255 / 0.12);
+  border-left: 2px solid rgb(var(--accent));
+  background: rgb(var(--surface-2));
+  box-shadow: 0 18px 40px rgb(0 0 0 / 0.55);
+  color: rgb(var(--text) / 0.86);
+  font-size: 0.74rem;
+  line-height: 1.5;
+  opacity: 0;
+  pointer-events: none;
+  translate: -50% 0.4rem;
+  transition:
+    opacity 0.25s ease,
+    translate 0.25s ease;
+}
+
+/* Words in the lower half open their note upwards, towards the centre. */
+.hob-word[data-above="true"] .hob-card {
+  top: auto;
+  bottom: calc(100% + 0.15rem);
+  translate: -50% -0.4rem;
+}
+
+.hob-word[data-active="true"] .hob-card {
+  opacity: 1;
+  translate: -50% 0;
+}
+
+.hob-blob {
+  --look-x: 0px;
+  --look-y: 0px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 3;
+  width: clamp(5.5rem, 10cqw, 8rem);
+  aspect-ratio: 1;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  translate: -50% -50%;
+  animation: hob-enter 0.9s cubic-bezier(0.3, 1.5, 0.45, 1) 0.15s both;
+}
+
+html[data-transit="cover"] .hob-blob {
+  animation-play-state: paused;
+}
+
+.hob-blob:focus-visible {
+  outline-offset: 10px;
+}
+
+@keyframes hob-enter {
+  from {
+    scale: 0;
+  }
+}
+
+.hob-body {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 15%;
+  overflow: hidden;
+  padding-top: 27%;
+  border-radius: 50%;
+  background: rgb(var(--text));
+  animation:
+    hob-pop 0.8s cubic-bezier(0.3, 1.5, 0.45, 1),
+    hob-idle 3.8s ease-in-out 0.8s infinite;
+  transition: box-shadow 0.5s ease;
+}
+
+.hob-body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--sheet);
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+.hob-field[data-open="true"] .hob-body {
+  box-shadow: 0 0 70px rgb(var(--accent) / 0.38);
+}
+
+.hob-field[data-open="true"] .hob-body::before {
+  opacity: 1;
+}
+
+.hob-eye {
+  position: relative;
+  width: 9.5%;
+  height: 23%;
+  border-radius: 999px;
+  background: #0b0809;
+  rotate: 10deg;
+  translate: var(--look-x) var(--look-y);
+  animation: hob-blink 4.6s ease-in-out infinite;
+  transition:
+    translate 0.12s ease-out,
+    background-color 0.45s ease;
+}
+
+.hob-field[data-open="true"] .hob-eye {
+  background: rgb(var(--text));
+}
+
+@keyframes hob-pop {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.26, 0.72);
+  }
+  55% {
+    transform: scale(0.88, 1.14);
+  }
+  78% {
+    transform: scale(1.05, 0.96);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes hob-idle {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-0.45rem) scale(1.03, 0.97);
+  }
+}
+
+@keyframes hob-blink {
+  0%,
+  92%,
+  100% {
+    scale: 1 1;
+  }
+  95% {
+    scale: 1 0.12;
+  }
+}
+
+.hob-hint {
+  position: absolute;
+  right: 0;
+  bottom: clamp(1.25rem, 4.5cqh, 3rem);
+  left: 0;
+  margin: 0;
+  color: rgb(var(--muted));
+  font-size: 0.62rem;
+  letter-spacing: 0.3em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.hob-hint-touch {
+  display: none;
+}
+
+@media (hover: none) {
+  .hob-hint-mouse {
+    display: none;
+  }
+
+  .hob-hint-touch {
+    display: inline;
+  }
+}
+
+@media (max-width: 767px), (max-aspect-ratio: 1/1) {
+  .hob-field[data-open="true"] .hob-word {
+    translate: calc(-50% + var(--tx) * 1cqw) calc(-50% + var(--ty) * 1cqh);
+  }
+
+  .hob-chip {
+    max-width: 9.5rem;
+    font-size: 1.02rem;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .hob-card {
+    max-width: 11rem;
   }
 }
 

@@ -20,8 +20,8 @@ const introBootstrap = `(function(){try{var d=document.documentElement;if(locati
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: `${SITE.name} — ${SITE.role}`,
-    template: `%s — ${SITE.shortName}`,
+    default: SITE.handle,
+    template: `%s — ${SITE.handle}`,
   },
   description: SITE.description,
   applicationName: `${SITE.shortName} — Portfólio`,
