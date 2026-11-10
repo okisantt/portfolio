@@ -24,7 +24,4 @@ export const NAV = [
   { href: "/hobbies", label: "∞", short: "∞", word: "Hobbies", name: "Hobbies", symbol: true },
 ] as const;
 
-/** Artwork shown while the hobbies page opens. */
-export const HOBBIES_SCENE = "/hobbies/intro.jpg";
-
 export type NavItem = (typeof NAV)[number];

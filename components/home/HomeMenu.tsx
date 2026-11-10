@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { usePageTransition } from "@/components/transition/TransitionProvider";
-import { HOBBIES_SCENE, NAV } from "@/lib/data";
+import { NAV } from "@/lib/data";
 
 /**
  * The row of destinations under the cover. Pointing at an item opens a band of
@@ -19,8 +19,6 @@ export default function HomeMenu() {
 
   const open = (index: number) => {
     if (leaving.current) return;
-    // Warm up the artwork of the hobbies transition before it is needed.
-    if (NAV[index].symbol) new window.Image().src = HOBBIES_SCENE;
     setActive(index);
     setWord(NAV[index].word);
   };
